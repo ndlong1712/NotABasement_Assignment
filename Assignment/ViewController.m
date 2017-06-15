@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "MBProgressHUD.h"
 
 @interface ViewController ()
 
@@ -16,7 +17,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 
