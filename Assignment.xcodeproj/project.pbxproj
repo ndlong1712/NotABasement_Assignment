@@ -16,6 +16,11 @@
 		9A3D485A1EF2EB1100252065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3D48581EF2EB1100252065 /* LaunchScreen.storyboard */; };
 		9A3D48651EF2EB1100252065 /* AssignmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48641EF2EB1100252065 /* AssignmentTests.m */; };
 		9A3D48701EF2EB1100252065 /* AssignmentUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D486F1EF2EB1100252065 /* AssignmentUITests.m */; };
+		9A3D48841EF37C1800252065 /* Download.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48831EF37C1800252065 /* Download.m */; };
+		9A3D48881EF381C600252065 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48871EF381C600252065 /* HomeViewController.m */; };
+		9A3D48951EF389BF00252065 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48941EF389BF00252065 /* FileManager.m */; };
+		9A3D48C41EF3F9A700252065 /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48C31EF3F9A700252065 /* HomeTableViewCell.m */; };
+		9A3D48C71EF3FB0200252065 /* HomeViewController+TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48C61EF3FB0200252065 /* HomeViewController+TableView.m */; };
 		A493EB4A601453788C723F2E /* libPods-AssignmentTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19D2199CDE42C26BF39FCCB7 /* libPods-AssignmentTests.a */; };
 		E07D930EEE2DFB70C7D61D72 /* libPods-Assignment.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 942C5AFBAAACA6386408411A /* libPods-Assignment.a */; };
 /* End PBXBuildFile section */
@@ -61,6 +66,17 @@
 		9A3D486B1EF2EB1100252065 /* AssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A3D486F1EF2EB1100252065 /* AssignmentUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignmentUITests.m; sourceTree = "<group>"; };
 		9A3D48711EF2EB1100252065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9A3D48821EF37C1800252065 /* Download.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Download.h; sourceTree = "<group>"; };
+		9A3D48831EF37C1800252065 /* Download.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Download.m; sourceTree = "<group>"; };
+		9A3D48861EF381C600252065 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = ViewController/HomeViewController.h; sourceTree = "<group>"; };
+		9A3D48871EF381C600252065 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ViewController/HomeViewController.m; sourceTree = "<group>"; };
+		9A3D48931EF389BF00252065 /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileManager.h; path = Utilities/FileManager/FileManager.h; sourceTree = "<group>"; };
+		9A3D48941EF389BF00252065 /* FileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileManager.m; path = Utilities/FileManager/FileManager.m; sourceTree = "<group>"; };
+		9A3D48961EF38D5E00252065 /* Define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Define.h; path = Utilities/Define.h; sourceTree = "<group>"; };
+		9A3D48C21EF3F9A700252065 /* HomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeTableViewCell.h; path = CustomView/HomeTableViewCell.h; sourceTree = "<group>"; };
+		9A3D48C31EF3F9A700252065 /* HomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeTableViewCell.m; path = CustomView/HomeTableViewCell.m; sourceTree = "<group>"; };
+		9A3D48C51EF3FB0200252065 /* HomeViewController+TableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HomeViewController+TableView.h"; path = "ViewController/HomeViewController+TableView.h"; sourceTree = "<group>"; };
+		9A3D48C61EF3FB0200252065 /* HomeViewController+TableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HomeViewController+TableView.m"; path = "ViewController/HomeViewController+TableView.m"; sourceTree = "<group>"; };
 		A326C54774790FAAD2B93FD0 /* Pods-AssignmentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssignmentUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AssignmentUITests/Pods-AssignmentUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F983071C9C6042B6AE8F30B1 /* libPods-AssignmentUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AssignmentUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -131,6 +147,11 @@
 		9A3D48491EF2EB1100252065 /* Assignment */ = {
 			isa = PBXGroup;
 			children = (
+				9A3D48971EF38DF500252065 /* Libraries */,
+				9A3D48911EF3892600252065 /* Utilities */,
+				9A3D48C11EF3F98200252065 /* CustomView */,
+				9A3D48851EF3818F00252065 /* ViewController */,
+				9A3D48811EF37BA300252065 /* DownloadHelper */,
 				9A3D484D1EF2EB1100252065 /* AppDelegate.h */,
 				9A3D484E1EF2EB1100252065 /* AppDelegate.m */,
 				9A3D48501EF2EB1100252065 /* ViewController.h */,
@@ -168,6 +189,76 @@
 				9A3D48711EF2EB1100252065 /* Info.plist */,
 			);
 			path = AssignmentUITests;
+			sourceTree = "<group>";
+		};
+		9A3D48811EF37BA300252065 /* DownloadHelper */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48821EF37C1800252065 /* Download.h */,
+				9A3D48831EF37C1800252065 /* Download.m */,
+			);
+			name = DownloadHelper;
+			sourceTree = "<group>";
+		};
+		9A3D48851EF3818F00252065 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48891EF381F500252065 /* Home */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		9A3D48891EF381F500252065 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48861EF381C600252065 /* HomeViewController.h */,
+				9A3D48871EF381C600252065 /* HomeViewController.m */,
+				9A3D48C51EF3FB0200252065 /* HomeViewController+TableView.h */,
+				9A3D48C61EF3FB0200252065 /* HomeViewController+TableView.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		9A3D48911EF3892600252065 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48921EF3895500252065 /* FileManager */,
+				9A3D48961EF38D5E00252065 /* Define.h */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		9A3D48921EF3895500252065 /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48931EF389BF00252065 /* FileManager.h */,
+				9A3D48941EF389BF00252065 /* FileManager.m */,
+			);
+			name = FileManager;
+			sourceTree = "<group>";
+		};
+		9A3D48971EF38DF500252065 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48981EF38E4600252065 /* Compress */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		9A3D48981EF38E4600252065 /* Compress */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Compress;
+			sourceTree = "<group>";
+		};
+		9A3D48C11EF3F98200252065 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48C21EF3F9A700252065 /* HomeTableViewCell.h */,
+				9A3D48C31EF3F9A700252065 /* HomeTableViewCell.m */,
+			);
+			name = CustomView;
 			sourceTree = "<group>";
 		};
 		D47EB9FC2C99DF77852CCD3A /* Frameworks */ = {
@@ -255,6 +346,7 @@
 				TargetAttributes = {
 					9A3D48461EF2EB1100252065 = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = X385U6EXA2;
 						ProvisioningStyle = Automatic;
 					};
 					9A3D485F1EF2EB1100252065 = {
@@ -447,6 +539,11 @@
 				9A3D48521EF2EB1100252065 /* ViewController.m in Sources */,
 				9A3D484F1EF2EB1100252065 /* AppDelegate.m in Sources */,
 				9A3D484C1EF2EB1100252065 /* main.m in Sources */,
+				9A3D48881EF381C600252065 /* HomeViewController.m in Sources */,
+				9A3D48C41EF3F9A700252065 /* HomeTableViewCell.m in Sources */,
+				9A3D48951EF389BF00252065 /* FileManager.m in Sources */,
+				9A3D48841EF37C1800252065 /* Download.m in Sources */,
+				9A3D48C71EF3FB0200252065 /* HomeViewController+TableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,7 +693,9 @@
 			baseConfigurationReference = 5F212791448510A3E48339FC /* Pods-Assignment.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = X385U6EXA2;
 				INFOPLIST_FILE = Assignment/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.longnguyen.Assignment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -608,7 +707,9 @@
 			baseConfigurationReference = 0FE6CE901981392065CF52CC /* Pods-Assignment.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = X385U6EXA2;
 				INFOPLIST_FILE = Assignment/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.longnguyen.Assignment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
