@@ -21,6 +21,9 @@
 		9A3D48951EF389BF00252065 /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48941EF389BF00252065 /* FileManager.m */; };
 		9A3D48C41EF3F9A700252065 /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48C31EF3F9A700252065 /* HomeTableViewCell.m */; };
 		9A3D48C71EF3FB0200252065 /* HomeViewController+TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48C61EF3FB0200252065 /* HomeViewController+TableView.m */; };
+		9A3D48CC1EF43DA700252065 /* ListMangaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48CB1EF43DA700252065 /* ListMangaTableViewCell.m */; };
+		9A3D48D01EF43E4800252065 /* ListMangaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48CF1EF43E4800252065 /* ListMangaViewController.m */; };
+		9A3D48D31EF4403000252065 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48D21EF4403000252065 /* Utilities.m */; };
 		A493EB4A601453788C723F2E /* libPods-AssignmentTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19D2199CDE42C26BF39FCCB7 /* libPods-AssignmentTests.a */; };
 		E07D930EEE2DFB70C7D61D72 /* libPods-Assignment.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 942C5AFBAAACA6386408411A /* libPods-Assignment.a */; };
 /* End PBXBuildFile section */
@@ -77,6 +80,12 @@
 		9A3D48C31EF3F9A700252065 /* HomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeTableViewCell.m; path = CustomView/HomeTableViewCell.m; sourceTree = "<group>"; };
 		9A3D48C51EF3FB0200252065 /* HomeViewController+TableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "HomeViewController+TableView.h"; path = "ViewController/HomeViewController+TableView.h"; sourceTree = "<group>"; };
 		9A3D48C61EF3FB0200252065 /* HomeViewController+TableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "HomeViewController+TableView.m"; path = "ViewController/HomeViewController+TableView.m"; sourceTree = "<group>"; };
+		9A3D48CA1EF43DA700252065 /* ListMangaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListMangaTableViewCell.h; path = CustomView/ListMangaTableViewCell.h; sourceTree = "<group>"; };
+		9A3D48CB1EF43DA700252065 /* ListMangaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListMangaTableViewCell.m; path = CustomView/ListMangaTableViewCell.m; sourceTree = "<group>"; };
+		9A3D48CE1EF43E4800252065 /* ListMangaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListMangaViewController.h; path = ViewController/ListMangaViewController.h; sourceTree = "<group>"; };
+		9A3D48CF1EF43E4800252065 /* ListMangaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListMangaViewController.m; path = ViewController/ListMangaViewController.m; sourceTree = "<group>"; };
+		9A3D48D11EF4403000252065 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Utilities/Utilities.h; sourceTree = "<group>"; };
+		9A3D48D21EF4403000252065 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = Utilities/Utilities.m; sourceTree = "<group>"; };
 		A326C54774790FAAD2B93FD0 /* Pods-AssignmentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssignmentUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AssignmentUITests/Pods-AssignmentUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F983071C9C6042B6AE8F30B1 /* libPods-AssignmentUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AssignmentUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -203,6 +212,7 @@
 		9A3D48851EF3818F00252065 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9A3D48CD1EF43DEE00252065 /* ListManga */,
 				9A3D48891EF381F500252065 /* Home */,
 			);
 			name = ViewController;
@@ -224,6 +234,8 @@
 			children = (
 				9A3D48921EF3895500252065 /* FileManager */,
 				9A3D48961EF38D5E00252065 /* Define.h */,
+				9A3D48D11EF4403000252065 /* Utilities.h */,
+				9A3D48D21EF4403000252065 /* Utilities.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -255,10 +267,37 @@
 		9A3D48C11EF3F98200252065 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
+				9A3D48C91EF43D0F00252065 /* ListManga */,
+				9A3D48C81EF43CFE00252065 /* Home */,
+			);
+			name = CustomView;
+			sourceTree = "<group>";
+		};
+		9A3D48C81EF43CFE00252065 /* Home */ = {
+			isa = PBXGroup;
+			children = (
 				9A3D48C21EF3F9A700252065 /* HomeTableViewCell.h */,
 				9A3D48C31EF3F9A700252065 /* HomeTableViewCell.m */,
 			);
-			name = CustomView;
+			name = Home;
+			sourceTree = "<group>";
+		};
+		9A3D48C91EF43D0F00252065 /* ListManga */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48CA1EF43DA700252065 /* ListMangaTableViewCell.h */,
+				9A3D48CB1EF43DA700252065 /* ListMangaTableViewCell.m */,
+			);
+			name = ListManga;
+			sourceTree = "<group>";
+		};
+		9A3D48CD1EF43DEE00252065 /* ListManga */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D48CE1EF43E4800252065 /* ListMangaViewController.h */,
+				9A3D48CF1EF43E4800252065 /* ListMangaViewController.m */,
+			);
+			name = ListManga;
 			sourceTree = "<group>";
 		};
 		D47EB9FC2C99DF77852CCD3A /* Frameworks */ = {
@@ -537,9 +576,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A3D48521EF2EB1100252065 /* ViewController.m in Sources */,
+				9A3D48D01EF43E4800252065 /* ListMangaViewController.m in Sources */,
 				9A3D484F1EF2EB1100252065 /* AppDelegate.m in Sources */,
+				9A3D48CC1EF43DA700252065 /* ListMangaTableViewCell.m in Sources */,
 				9A3D484C1EF2EB1100252065 /* main.m in Sources */,
 				9A3D48881EF381C600252065 /* HomeViewController.m in Sources */,
+				9A3D48D31EF4403000252065 /* Utilities.m in Sources */,
 				9A3D48C41EF3F9A700252065 /* HomeTableViewCell.m in Sources */,
 				9A3D48951EF389BF00252065 /* FileManager.m in Sources */,
 				9A3D48841EF37C1800252065 /* Download.m in Sources */,

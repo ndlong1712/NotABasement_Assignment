@@ -9,6 +9,8 @@
 #import "HomeViewController+TableView.h"
 #import "HomeTableViewCell.h"
 #import "FileManager.h"
+#import "Utilities.h"
+#import "ListMangaViewController.h"
 
 @implementation HomeViewController (TableView)
 
@@ -26,7 +28,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
   NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
   NSString *pathMangaList = [mangaFolder stringByAppendingString:[NSString stringWithFormat:@"/%@",[self.dataSource lastObject]]];
+  //get list file in path
   NSArray *listFiles = [[FileManager shareInstance] getListFilesInPath:pathMangaList];
+  ListMangaViewController *viewController = (ListMangaViewController*) [Utilities getViewController:ListMangaViewControllerName];
+  viewController.dataSource = listFiles;
+  [self.navigationController pushViewController:viewController animated:YES];
+  
 }
 
 @end
