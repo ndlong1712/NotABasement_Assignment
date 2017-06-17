@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.automaticallyAdjustsScrollViewInsets = NO;
   [self configURLSession];
   [self downloadZipFileWithURL:SERVER_URL_DATA];
   
@@ -47,7 +48,6 @@
   downloadJsonData.type = Anime;
 }
 
-//
 - (void)configURLSession {
   NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
   self.downloadsSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];

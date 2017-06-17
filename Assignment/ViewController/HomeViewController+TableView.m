@@ -11,12 +11,18 @@
 #import "FileManager.h"
 #import "Utilities.h"
 #import "ListMangaViewController.h"
+#import "StoryBook.h"
+#import "ParseJson.h"
 
 @implementation HomeViewController (TableView)
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
   return 4;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+  return 80;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -30,10 +36,28 @@
   NSString *pathMangaList = [mangaFolder stringByAppendingString:[NSString stringWithFormat:@"/%@",[self.dataSource lastObject]]];
   //get list file in path
   NSArray *listFiles = [[FileManager shareInstance] getListFilesInPath:pathMangaList];
+  
+  NSArray *dataSource = [self parseJsons:listFiles];
   ListMangaViewController *viewController = (ListMangaViewController*) [Utilities getViewController:ListMangaViewControllerName];
-  viewController.dataSource = listFiles;
+  viewController.dataSource = dataSource;
+  
   [self.navigationController pushViewController:viewController animated:YES];
   
+}
+
+//parse json to Book object
+-(NSArray*)parseJsons:(NSArray*) listFiles {
+  NSMutableArray *dataSource = [[NSMutableArray alloc]init];
+  
+  for (NSString *pathJson in listFiles) {
+    StoryBook *book = [[StoryBook alloc]initWithPath:pathJson];
+    NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
+    book.pages = listPages;
+    NSString *nameFile = [pathJson lastPathComponent];
+    book.name = nameFile;
+    [dataSource addObject:book];
+  }
+  return dataSource;
 }
 
 @end

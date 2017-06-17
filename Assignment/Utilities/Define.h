@@ -11,6 +11,7 @@
 
 #define     SERVER_URL_DATA              @"https://storage.googleapis.com/nabstudio/Developer/iOS/Interview/Image%20Downloader/JSON%20files%20updated.zip"
 
+#define JSON_EXT                @"json"
 #define TMP_EXT                 @"png"
 #define JPG_EXT                 @"jpg"
 #define ZIP_EXT                 @"zip"

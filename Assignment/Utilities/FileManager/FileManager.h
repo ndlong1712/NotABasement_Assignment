@@ -20,6 +20,7 @@
 - (NSString *)getOrCreateJSONDirectory;
 - (NSString *)getOrCreateMangaDirectory;
 - (NSArray*)getListFilesInPath: (NSString*) path;
+- (NSString *)getDirectoryOrCreate: (NSString *)dirName;
 - (BOOL) removeFileAtPath: (NSString *)path;
 - (BOOL)unzipAndDeleteFile:(NSString *)path toDestination: (NSString*) desPath isDeleteOldFile:(BOOL) isDelete;
 - (BOOL) moveFileAtPath: (NSURL*) path toFolder:(NSString *)desFolder withName: (NSString*) name;
