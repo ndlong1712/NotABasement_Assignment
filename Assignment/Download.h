@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, Type) {
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, assign) Boolean isDownloading;
 @property (nonatomic, assign) float progress;
+@property (nonatomic, assign) int index;
 
 @property (nonatomic, strong) NSArray *downloadImages;
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;

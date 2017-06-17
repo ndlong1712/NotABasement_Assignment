@@ -13,6 +13,7 @@
 @property(nonatomic, strong) NSString *path;
 @property(nonatomic, strong) NSString *name;
 @property(nonatomic, strong) NSArray *pages;
+@property(nonatomic, assign) int index;
 
 - (id)initWithPath:(NSString*) path;
 

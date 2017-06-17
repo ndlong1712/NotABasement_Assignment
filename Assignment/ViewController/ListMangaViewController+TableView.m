@@ -9,6 +9,7 @@
 #import "ListMangaViewController+TableView.h"
 #import "ListMangaTableViewCell.h"
 #import "StoryBook.h"
+#import "Define.h"
 
 @implementation ListMangaViewController (TableView)
 
@@ -20,7 +21,14 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
   ListMangaTableViewCell *cell = (ListMangaTableViewCell *)[tableView dequeueReusableCellWithIdentifier:ListMangaCelllName];
   StoryBook *book = self.dataSource[indexPath.row];
+
   cell.lbNameManga.text = book.name;
+  if (([cell.lbStatus.text  isEqual: STATUS_FINISHED] || [cell.lbStatus.text  isEqual: STATUS_DOWNLOADING])) {
+    
+  } else {
+    cell.lbStatus.text = STATUS_QUEUING;
+  }
+  
   
   return cell;
 }

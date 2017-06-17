@@ -24,5 +24,9 @@
 #define FOLDER_JSON @"JSON_DATA_SOURCE"
 #define FOLDER_MANGA @"MANGA"
 
+#define STATUS_DOWNLOADING @"Downloading..."
+#define STATUS_QUEUING @"Queuing..."
+#define STATUS_FINISHED @"Finished"
+
 
 #endif /* Define_h */

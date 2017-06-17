@@ -146,17 +146,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uVZ-Ol-iDc" userLabel="View bot">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="GIl-WH-djO">
-                                        <rect key="frame" x="33" y="10" width="308" height="31"/>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="GIl-WH-djO">
+                                        <rect key="frame" x="13" y="10" width="314" height="31"/>
+                                        <connections>
+                                            <action selector="dragSliderBar:" destination="rfc-CF-5C6" eventType="valueChanged" id="E7D-kf-l32"/>
+                                        </connections>
                                     </slider>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iTX-wC-I2R">
-                                        <rect key="frame" x="12" y="14.5" width="8" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1UP-89-TgY">
-                                        <rect key="frame" x="348" y="14.5" width="11" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1UP-89-TgY">
+                                        <rect key="frame" x="347" y="14.5" width="8" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -172,16 +169,14 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="aj9-Qq-TcB" firstAttribute="top" secondItem="uVZ-Ol-iDc" secondAttribute="top" id="9Nx-Ct-ii8"/>
-                                    <constraint firstItem="GIl-WH-djO" firstAttribute="leading" secondItem="uVZ-Ol-iDc" secondAttribute="leading" constant="35" id="EpB-Ah-15N"/>
+                                    <constraint firstItem="GIl-WH-djO" firstAttribute="leading" secondItem="uVZ-Ol-iDc" secondAttribute="leading" constant="15" id="EpB-Ah-15N"/>
                                     <constraint firstItem="GIl-WH-djO" firstAttribute="centerY" secondItem="uVZ-Ol-iDc" secondAttribute="centerY" id="Hzd-1W-fdi"/>
                                     <constraint firstItem="aj9-Qq-TcB" firstAttribute="leading" secondItem="uVZ-Ol-iDc" secondAttribute="leading" id="LJR-VX-laO"/>
-                                    <constraint firstAttribute="trailing" secondItem="GIl-WH-djO" secondAttribute="trailing" constant="36" id="WmQ-5n-e2k"/>
+                                    <constraint firstAttribute="trailing" secondItem="GIl-WH-djO" secondAttribute="trailing" constant="50" id="WmQ-5n-e2k"/>
                                     <constraint firstAttribute="trailing" secondItem="aj9-Qq-TcB" secondAttribute="trailing" id="cBV-pX-jal"/>
                                     <constraint firstItem="1UP-89-TgY" firstAttribute="centerY" secondItem="GIl-WH-djO" secondAttribute="centerY" id="gu0-V8-z9B"/>
-                                    <constraint firstItem="GIl-WH-djO" firstAttribute="leading" secondItem="iTX-wC-I2R" secondAttribute="trailing" constant="15" id="hoU-nC-maK"/>
                                     <constraint firstAttribute="height" constant="50" id="qd2-zB-y9K"/>
-                                    <constraint firstItem="1UP-89-TgY" firstAttribute="trailing" secondItem="GIl-WH-djO" secondAttribute="trailing" constant="20" id="seN-OQ-qo2"/>
-                                    <constraint firstItem="iTX-wC-I2R" firstAttribute="centerY" secondItem="GIl-WH-djO" secondAttribute="centerY" id="vao-Tr-lrj"/>
+                                    <constraint firstItem="1UP-89-TgY" firstAttribute="trailing" secondItem="GIl-WH-djO" secondAttribute="trailing" constant="30" id="seN-OQ-qo2"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -198,7 +193,6 @@
                     </view>
                     <connections>
                         <outlet property="lbMaxNumber" destination="1UP-89-TgY" id="xvA-cH-Lnd"/>
-                        <outlet property="lbMinNumber" destination="iTX-wC-I2R" id="gwC-FW-xSt"/>
                         <outlet property="sliderNumberThread" destination="GIl-WH-djO" id="JrF-sh-Q1O"/>
                         <outlet property="tableView" destination="7OJ-nS-sZt" id="qCP-4U-8yU"/>
                     </connections>

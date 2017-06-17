@@ -48,15 +48,17 @@
 //parse json to Book object
 -(NSArray*)parseJsons:(NSArray*) listFiles {
   NSMutableArray *dataSource = [[NSMutableArray alloc]init];
-  
-  for (NSString *pathJson in listFiles) {
+  for (int i = 0; i < listFiles.count; i++) {
+    NSString *pathJson = listFiles[i];
     StoryBook *book = [[StoryBook alloc]initWithPath:pathJson];
+    book.index = i;
     NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
     book.pages = listPages;
     NSString *nameFile = [pathJson lastPathComponent];
     book.name = nameFile;
     [dataSource addObject:book];
   }
+ 
   return dataSource;
 }
 
