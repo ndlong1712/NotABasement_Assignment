@@ -10,7 +10,11 @@
 #import "ListMangaTableViewCell.h"
 #import "StoryBook.h"
 #import "Define.h"
+#import "Download.h"
+#import "MangaDetailViewController.h"
+#import "Utilities.h"
 
+static NSString *mangaDetailName = @"MangaDetailViewController";
 @implementation ListMangaViewController (TableView)
 
 #pragma UITableViewDelegate & datasource
@@ -35,6 +39,17 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
   return 90;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    StoryBook *book = self.dataSource[indexPath.row];
+    Download *downloadBook = [self.listActiveDownload objectForKey:book.name];
+    downloadBook.isSelected = YES;
+    MangaDetailViewController *mangeDetailVC = (MangaDetailViewController*) [Utilities getViewController:mangaDetailName];
+    mangeDetailVC.arrManga = downloadBook.downloadImages;
+    [self.navigationController pushViewController:mangeDetailVC animated:YES];
+    
+    
 }
 
 

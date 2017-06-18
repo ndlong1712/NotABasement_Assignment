@@ -15,6 +15,7 @@
   self = [super init];
   if (self) {
     self.url = url;
+      self.downloadImages = [[NSMutableArray alloc] init];
     return self;
   }
   return nil;

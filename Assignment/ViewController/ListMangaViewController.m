@@ -17,7 +17,6 @@
 #define Resume @"Resume"
 
 @interface ListMangaViewController ()<NSURLSessionDownloadDelegate> {
-  NSMutableDictionary *listActiveDownload;
   NSOperationQueue *queue;
   int maxOperations;
   UIBarButtonItem *rightButton;
@@ -30,7 +29,7 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.automaticallyAdjustsScrollViewInsets = NO;
-  listActiveDownload = [[NSMutableDictionary alloc] init];
+  _listActiveDownload = [[NSMutableDictionary alloc] init];
   [self addRightButtonOnNavigation];
   maxOperations = self.sliderNumberThread.value;
   [self configURLSession];
@@ -64,7 +63,7 @@
   queue = [[NSOperationQueue alloc] init];
   queue.maxConcurrentOperationCount = self.sliderNumberThread.value;
   
-  for (StoryBook* book in self.dataSource) {
+    for (StoryBook* book in self.dataSource) {
     [[FileManager shareInstance] getDirectoryOrCreate:[NSString stringWithFormat:@"%@/%@",FOLDER_MANGA,[book.name stringByDeletingPathExtension]]];
     NSBlockOperation *currentOperation = [NSBlockOperation blockOperationWithBlock:^{
       [self startDownLoad:book];
@@ -82,8 +81,7 @@
   downloadBook.isDownloading = true;
   downloadBook.name = book.name;
   downloadBook.index = book.index;
-  downloadBook.downloadImages = book.pages;
-  [listActiveDownload setObject:downloadBook forKey:book.name];
+  [_listActiveDownload setObject:downloadBook forKey:book.name];
   for (NSString *urlStr in book.pages) {
     NSURL *url = [NSURL URLWithString:urlStr];
     DownloadImage *downloadPage = [[DownloadImage alloc]initWithURL:urlStr];
@@ -91,7 +89,8 @@
     downloadPage.nameBook = book.name;
     [downloadPage.downloadTask resume];
     downloadPage.isDownloading = true;
-    [listActiveDownload setObject:downloadPage forKey:urlStr];
+    [_listActiveDownload setObject:downloadPage forKey:urlStr];
+      [downloadBook.downloadImages addObject:downloadPage];
   }
   
 }
@@ -120,10 +119,10 @@
 #pragma mark - NSURLSessionDownloadDelegate
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
   
-  DownloadImage *dImg = [listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
+  DownloadImage *dImg = [_listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
   
   NSLog(@"%@ :Finish download URL: %@",dImg.nameBook,downloadTask.originalRequest.URL.absoluteString);
-  Download *dObj = [listActiveDownload objectForKey:dImg.nameBook];
+  Download *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
   
   //move to MANGA FOLDER
   NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
@@ -132,7 +131,11 @@
   NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
   [[FileManager shareInstance] moveFileAtPath:location toFolder:[NSString stringWithFormat:@"%@/%@",FOLDER_MANGA,[dObj.name stringByDeletingPathExtension]] withName:sendingFileName];
   NSLog(@"Image Saved At: %@/%@", [desURL path],sendingFileName);
-  
+    dImg.imgFilePath = [NSString stringWithFormat:@"%@/%@/%@", [desURL path], [dObj.name stringByDeletingPathExtension], sendingFileName];
+    dImg.isDownloading = NO;
+    if (dObj.isSelected) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
+    }
   //update progress
   dispatch_async(dispatch_get_main_queue(), ^{
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
@@ -151,14 +154,19 @@
 
 
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-  
+    DownloadImage *dImg = [_listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
+    dImg.progress = (float)bytesWritten/(float)totalBytesExpectedToWrite*100;
+    //NSLog(@"Khoa progress : %ld", (long)dImg.progress);
+    Download *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
+    if (dObj.isSelected) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
+    }
+    
 }
 
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
   NSLog(@"Error: %@",error);
 }
-
-
 
 @end

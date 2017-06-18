@@ -28,5 +28,7 @@
 #define STATUS_QUEUING @"Queuing..."
 #define STATUS_FINISHED @"Finished"
 
+#define kNotifiProgress @"NotifiProgress"
+
 
 #endif /* Define_h */

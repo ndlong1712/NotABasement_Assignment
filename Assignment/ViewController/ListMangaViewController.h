@@ -18,5 +18,6 @@ static NSString *ListMangaViewControllerName = @"ListMangaViewController";
 @property (weak, nonatomic) IBOutlet UISlider *sliderNumberThread;
 @property (weak, nonatomic) IBOutlet UILabel *lbMinNumber;
 @property (weak, nonatomic) IBOutlet UILabel *lbMaxNumber;
+@property (strong, nonatomic) NSMutableDictionary *listActiveDownload;
 
 @end
