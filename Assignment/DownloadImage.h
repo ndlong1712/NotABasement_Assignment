@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString *nameBook;
 @property (nonatomic, assign) Boolean isDownloading;
 @property (nonatomic, assign) float progress;
+@property (nonatomic, strong) NSString *imgFilePath;
 
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic, strong) NSData *resumeData;

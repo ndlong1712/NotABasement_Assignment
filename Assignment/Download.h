@@ -23,9 +23,10 @@ typedef NS_ENUM(NSUInteger, Type) {
 @property (nonatomic, assign) float progress;
 @property (nonatomic, assign) int index;
 
-@property (nonatomic, strong) NSArray *downloadImages;
+@property (nonatomic, strong) NSMutableArray *downloadImages;
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic, assign) Type type;
+@property (nonatomic, assign) BOOL isSelected;
 
 - (id)initWithURL:(NSString*) url;
  

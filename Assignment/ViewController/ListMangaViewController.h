@@ -23,4 +23,5 @@ static NSString *ListMangaViewControllerName = @"ListMangaViewController";
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *btnDelete;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *btnAdd;
 
+
 @end

@@ -4,8 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,7 +30,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="89"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dbf-2j-XhR" id="luB-t2-4tQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="88"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="88.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lxj-pb-sRU" userLabel="Type Manga">
@@ -226,6 +225,82 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="738-Mq-b2D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2722.4000000000001" y="40.929535232383813"/>
+        </scene>
+        <!--Manga Detail View Controller-->
+        <scene sceneID="n00-fC-A6p">
+            <objects>
+                <viewController storyboardIdentifier="MangaDetailViewController" id="ncG-Gt-SlW" customClass="MangaDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="O4j-Px-K4F"/>
+                        <viewControllerLayoutGuide type="bottom" id="IiY-Ju-62w"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Isw-wk-rHM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6m3-X8-b1O">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="nSy-fQ-S2q">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="vse-ee-AK0" customClass="MangaCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pNv-eG-0u4">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntU-Sg-MHS">
+                                                    <rect key="frame" x="5" y="89" width="90" height="11"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="ntU-Sg-MHS" secondAttribute="bottom" id="0Qa-dC-NE1"/>
+                                            <constraint firstAttribute="bottom" secondItem="pNv-eG-0u4" secondAttribute="bottom" id="51t-nB-JU2"/>
+                                            <constraint firstItem="ntU-Sg-MHS" firstAttribute="leading" secondItem="vse-ee-AK0" secondAttribute="leading" constant="5" id="Da2-w9-A56"/>
+                                            <constraint firstAttribute="trailing" secondItem="ntU-Sg-MHS" secondAttribute="trailing" constant="5" id="Lev-ac-WId"/>
+                                            <constraint firstItem="pNv-eG-0u4" firstAttribute="top" secondItem="vse-ee-AK0" secondAttribute="top" id="Ls0-Cs-lfY"/>
+                                            <constraint firstAttribute="trailing" secondItem="pNv-eG-0u4" secondAttribute="trailing" id="Rr5-xe-pbu"/>
+                                            <constraint firstItem="ntU-Sg-MHS" firstAttribute="centerX" secondItem="pNv-eG-0u4" secondAttribute="centerX" id="rqh-Gp-rBR"/>
+                                            <constraint firstItem="pNv-eG-0u4" firstAttribute="leading" secondItem="vse-ee-AK0" secondAttribute="leading" id="xwl-gx-Za2"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imgManga" destination="pNv-eG-0u4" id="Ghm-fJ-fsn"/>
+                                            <outlet property="progress" destination="ntU-Sg-MHS" id="sKZ-Ss-zNc"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6m3-X8-b1O" firstAttribute="top" secondItem="O4j-Px-K4F" secondAttribute="bottom" id="82z-3c-h8p"/>
+                            <constraint firstItem="IiY-Ju-62w" firstAttribute="top" secondItem="6m3-X8-b1O" secondAttribute="bottom" id="H22-6S-Qwo"/>
+                            <constraint firstItem="6m3-X8-b1O" firstAttribute="leading" secondItem="Isw-wk-rHM" secondAttribute="leading" id="OvB-C4-HA6"/>
+                            <constraint firstAttribute="trailing" secondItem="6m3-X8-b1O" secondAttribute="trailing" id="RrG-G9-LF0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mangaDetailCollectionView" destination="6m3-X8-b1O" id="NZo-Fx-5DZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HYm-nM-L2L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2511.1999999999998" y="45.42728635682159"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bmq-Lu-Uy5">

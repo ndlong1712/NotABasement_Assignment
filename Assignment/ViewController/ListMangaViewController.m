@@ -19,7 +19,6 @@
 #define Resume @"Resume"
 
 @interface ListMangaViewController ()<NSURLSessionDownloadDelegate> {
-  
   NSOperationQueue *queue;
   NSMutableArray *pages;
   int maxOperations;
@@ -119,7 +118,7 @@
       [download.downloadTask cancel];
     }
   }];
-//  [self.dataSource removeAllObjects];
+  //  [self.dataSource removeAllObjects];
   self.dataSource = nil;
   [self.listActiveDownload removeAllObjects];
   [self.tableView reloadData];
@@ -147,7 +146,7 @@
   downloadBook.isDownloading = true;
   downloadBook.name = book.name;
   downloadBook.index = book.index;
-  downloadBook.downloadImages = book.pages;
+  downloadBook.downloadImages = [book.pages copy];
   [self.listActiveDownload setObject:downloadBook forKey:book.name];
   for (int i = 0; i < book.pages.count; i++) {
     NSString *urlString = book.pages[i];
@@ -205,70 +204,73 @@
   } else {
     NSString *identifierTask = downloadTask.taskDescription;
     NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",downloadTask.originalRequest.URL.absoluteString,identifierTask];
-//    NSLog(@"unique: %@",uniqueUrl);
+    //    NSLog(@"unique: %@",uniqueUrl);
     DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
     Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+    NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
+    NSURL *desURL = [NSURL URLWithString:mangaFolder];
+    NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
+    dImg.imgFilePath = [NSString stringWithFormat:@"%@/%@/%@", [desURL path], [dObj.name stringByDeletingPathExtension], sendingFileName];
+    if (dObj.isSelected) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
+    }
+    dImg.isDownloading = NO;
     if (dObj != nil) {
-    dImg.isDownloading = false;
-    [self finishDownloadTask:downloadTask location:location moveDataToFolder:FOLDER_MANGA withName:[dObj.name stringByDeletingPathExtension]];
-    //update progress
-    dispatch_async(dispatch_get_main_queue(), ^{
-      NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
-      ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-      
-      dObj.progress += 1.0 / (float)dObj.downloadImages.count;
-      //      NSLog(@"update to: %d",dObj.index);
-      //      if (dObj.index == 0) {
-      //        row1++;
-      //        NSLog(@"item downloaded: %d",row1);
-      //      }
-      if (dObj.index == 2) {
-      }
-      
-      if (dObj.progress >= 0.98) {
-        cell.lbStatus.text = STATUS_FINISHED;
-        dObj.isDownloading = false;
-      } else {
-        if (![cell.lbStatus.text  isEqual: STATUS_FINISHED]) {
-          cell.lbStatus.text = STATUS_DOWNLOADING;
+      dImg.isDownloading = false;
+      [self finishDownloadTask:downloadTask location:location moveDataToFolder:FOLDER_MANGA withName:[dObj.name stringByDeletingPathExtension]];
+      //update progress
+      dispatch_async(dispatch_get_main_queue(), ^{
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
+        ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        dObj.progress += 1.0 / (float)dObj.downloadImages.count;
+        //      NSLog(@"update to: %d",dObj.index);
+        //      if (dObj.index == 0) {
+        //        row1++;
+        //        NSLog(@"item downloaded: %d",row1);
+        //      }
+        if (dObj.index == 2) {
         }
-      }
-      [self removeDownloadObjectWithKey:uniqueUrl];
-      cell.viewProgress.progress = dObj.progress;
-    });
+        
+        if (dObj.progress >= 0.98) {
+          cell.lbStatus.text = STATUS_FINISHED;
+          dObj.isDownloading = false;
+        } else {
+          if (![cell.lbStatus.text  isEqual: STATUS_FINISHED]) {
+            cell.lbStatus.text = STATUS_DOWNLOADING;
+          }
+        }
+        [self removeDownloadObjectWithKey:uniqueUrl];
+        cell.viewProgress.progress = dObj.progress;
+      });
+    }
   }
-  }
-  
-}
-
-
--(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
   
 }
 
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-    if (!isDownDataSource && !isPause) {
-      NSString *identifierTask = task.taskDescription;
-      NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
-      DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
-      Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
-      dImg.isDownloading = false;
-      //update progress
-      dispatch_async(dispatch_get_main_queue(), ^{
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
-        ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        if (error.code != 0) {
-          dObj.progress += 1.0 / (float)dObj.downloadImages.count;
-          if (dObj.progress >= 0.98) {
-            cell.lbStatus.text = STATUS_FINISHED;
-            dObj.isDownloading = false;
-          }
-          [self removeDownloadObjectWithKey:uniqueUrl];
-          cell.viewProgress.progress = dObj.progress;
+  if (!isDownDataSource && !isPause) {
+    NSString *identifierTask = task.taskDescription;
+    NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
+    DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
+    Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+    dImg.isDownloading = false;
+    //update progress
+    dispatch_async(dispatch_get_main_queue(), ^{
+      NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
+      ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+      if (error.code != 0) {
+        dObj.progress += 1.0 / (float)dObj.downloadImages.count;
+        if (dObj.progress >= 0.98) {
+          cell.lbStatus.text = STATUS_FINISHED;
+          dObj.isDownloading = false;
         }
-      });
-    }
+        [self removeDownloadObjectWithKey:uniqueUrl];
+        cell.viewProgress.progress = dObj.progress;
+      }
+    });
+  }
 }
 
 -(void)finishDownDataSource:(NSURLSessionDownloadTask*) downloadTask location:(NSURL*) location{
@@ -312,6 +314,17 @@
   }
   
   return dataSource;
+}
+
+-(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+  DownloadImage *dImg = [_listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
+  dImg.progress = (float)bytesWritten/(float)totalBytesExpectedToWrite*100;
+  //NSLog(@"Khoa progress : %ld", (long)dImg.progress);
+  Download *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
+  if (dObj.isSelected) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
+  }
+  
 }
 
 -(void)finishDownloadTask:(NSURLSessionDownloadTask*) downloadTask
