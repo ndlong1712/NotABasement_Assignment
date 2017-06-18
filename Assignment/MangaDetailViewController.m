@@ -25,8 +25,8 @@
     _mangaDetailCollectionView.delegate = self;
     _mangaDetailCollectionView.dataSource = self;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    mangaFlowLayout = [[MangaDetailFlowLayout alloc] init];
-    _mangaDetailCollectionView.collectionViewLayout = mangaFlowLayout;
+//    mangaFlowLayout = [[MangaDetailFlowLayout alloc] init];
+    //_mangaDetailCollectionView.collectionViewLayout = mangaFlowLayout;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,7 +83,12 @@
         MangaCollectionViewCell *cell = (MangaCollectionViewCell *)[_mangaDetailCollectionView cellForItemAtIndexPath:indexPath];
         DownloadImage *downloadImg = notification.object;
         if (downloadImg.imgFilePath != nil) {
-            cell.imgManga.image = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
+            @try {
+                UIImage *destImg = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
+                cell.imgManga.image = [self imageWithImage:destImg convertToSize:CGSizeMake(100, 100)];
+            } @catch (NSException *exception) {
+                NSLog(@"Error");
+            }
         } else {
             [cell.imgManga setBackgroundColor:[UIColor grayColor]];
         }
@@ -94,6 +99,14 @@
             cell.progress.text = @"";
         }
     });
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image convertToSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return destImage;
 }
 
 

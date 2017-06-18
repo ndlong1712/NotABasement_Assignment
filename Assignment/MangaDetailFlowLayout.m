@@ -28,6 +28,11 @@
     return answer;
 }
 
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewLayoutAttributes* attributes = [[super layoutAttributesForItemAtIndexPath:indexPath] copy];
+    return attributes;
+}
+
 - (CGSize)itemSize {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     

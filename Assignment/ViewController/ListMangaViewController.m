@@ -146,7 +146,7 @@
   downloadBook.isDownloading = true;
   downloadBook.name = book.name;
   downloadBook.index = book.index;
-  downloadBook.downloadImages = [book.pages copy];
+  //downloadBook.downloadImages = [book.pages copy];
   [self.listActiveDownload setObject:downloadBook forKey:book.name];
   for (int i = 0; i < book.pages.count; i++) {
     NSString *urlString = book.pages[i];
@@ -159,6 +159,7 @@
     [self.listActiveDownload setObject:downloadPage forKey:uniqueUrl];
     [downloadPage.downloadTask resume];
     downloadPage.isDownloading = true;
+    [downloadBook.downloadImages addObject:downloadPage];
   }
 }
 
@@ -211,10 +212,10 @@
     NSURL *desURL = [NSURL URLWithString:mangaFolder];
     NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
     dImg.imgFilePath = [NSString stringWithFormat:@"%@/%@/%@", [desURL path], [dObj.name stringByDeletingPathExtension], sendingFileName];
+      dImg.isDownloading = NO;
     if (dObj.isSelected) {
       [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
     }
-    dImg.isDownloading = NO;
     if (dObj != nil) {
       dImg.isDownloading = false;
       [self finishDownloadTask:downloadTask location:location moveDataToFolder:FOLDER_MANGA withName:[dObj.name stringByDeletingPathExtension]];
