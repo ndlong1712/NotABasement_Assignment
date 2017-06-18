@@ -13,10 +13,14 @@ static NSString *ListMangaViewControllerName = @"ListMangaViewController";
 @interface ListMangaViewController : UIViewController
 
 @property(nonatomic, strong) NSURLSession *downloadsSession;
+@property(nonatomic, strong)NSMutableDictionary *listActiveDownload;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic)NSArray *dataSource;
+@property (strong, nonatomic)NSMutableArray *dataSource;
 @property (weak, nonatomic) IBOutlet UISlider *sliderNumberThread;
 @property (weak, nonatomic) IBOutlet UILabel *lbMinNumber;
 @property (weak, nonatomic) IBOutlet UILabel *lbMaxNumber;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnPauseResume;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnDelete;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnAdd;
 
 @end

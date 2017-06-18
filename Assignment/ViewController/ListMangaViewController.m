@@ -12,15 +12,20 @@
 #import "FileManager.h"
 #import "Define.h"
 #import "Download.h"
+#import "ParseJson.h"
+#import "MBProgressHUD.h"
 
 #define Pause @"Pause"
 #define Resume @"Resume"
 
 @interface ListMangaViewController ()<NSURLSessionDownloadDelegate> {
-  NSMutableDictionary *listActiveDownload;
+  
   NSOperationQueue *queue;
+  NSMutableArray *pages;
   int maxOperations;
-  UIBarButtonItem *rightButton;
+  BOOL isDownDataSource;
+  BOOL isStartDownload;
+  BOOL isPause;
 }
 
 @end
@@ -30,39 +35,100 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.automaticallyAdjustsScrollViewInsets = NO;
-  listActiveDownload = [[NSMutableDictionary alloc] init];
-  [self addRightButtonOnNavigation];
+  self.listActiveDownload = [[NSMutableDictionary alloc] init];
   maxOperations = self.sliderNumberThread.value;
+  [self.btnPauseResume setEnabled:NO];
+  [self.btnDelete setEnabled:NO];
+  pages = [[NSMutableArray alloc]init];
   [self configURLSession];
-  [self testt];
   
 }
 
--(void)addRightButtonOnNavigation {
-  rightButton = [[UIBarButtonItem alloc]
-                                 initWithTitle:Pause
-                                 style:UIBarButtonItemStylePlain
-                                 target:self
-                                 action:@selector(didTapRightButton)];
-  self.navigationItem.rightBarButtonItem = rightButton;
+- (IBAction)deleteAll:(id)sender {
+  [self cancelAll];
+  [self.btnPauseResume setEnabled:NO];
+  [self.btnAdd setEnabled:YES];
 }
 
--(void)didTapRightButton {
-  if ([[rightButton title] isEqualToString:Pause]) {
-    [rightButton setTitle:Resume];
-    for (NSBlockOperation *block in queue.operations) {
-      
-    }
+- (IBAction)pauseOrResumeAll:(id)sender {
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+  if ([[self.btnPauseResume title] isEqualToString:Pause]) {
+    [self.btnPauseResume setTitle:Resume];
+    [self pauseAll];
+    isPause = YES;
   } else {
-    [rightButton setTitle:Pause];
-    [queue setMaxConcurrentOperationCount:0];
-//    queue.maxConcurrentOperationCount = self.sliderNumberThread.value;
+    [self.btnPauseResume setTitle:Pause];
+    [self resumeAll];
+    isPause = NO;
   }
 }
+- (IBAction)addData:(id)sender {
+  self.dataSource = [[NSMutableArray alloc]init];
+  isDownDataSource = YES;
+  [self.btnPauseResume setEnabled:YES];
+  [self.btnDelete setEnabled:YES];
+  [self downloadZipFileWithURL:SERVER_URL_DATA];
+}
 
--(void)testt {
+-(void)pauseAll {
+  
+  [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
+    if ([value isKindOfClass:[DownloadImage class]]) {
+      DownloadImage *download = value;
+      if (download.isDownloading) {
+        [download.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+          if (resumeData != nil) {
+            download.resumeData = resumeData;
+          }
+        }];
+      } else {
+        [download.downloadTask cancel];
+      }
+      download.isDownloading = false;
+    }
+  }];
+  [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+-(void)resumeAll {
+  [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
+    if ([value isKindOfClass:[DownloadImage class]]) {
+      NSBlockOperation *currentOperation = [NSBlockOperation blockOperationWithBlock:^{
+        DownloadImage *download = value;
+        NSString *taskIdentifier = [key lastPathComponent];
+        if (download.resumeData != nil) {
+          download.downloadTask = [self.downloadsSession downloadTaskWithResumeData:download.resumeData];
+        } else {
+          NSURL *url = [NSURL URLWithString:download.url];
+          download.downloadTask = [self.downloadsSession downloadTaskWithURL:url];
+        }
+        download.downloadTask.taskDescription = taskIdentifier;
+        [download.downloadTask resume];
+        download.isDownloading = true;
+      }];
+      [queue addOperation:currentOperation];
+    }
+  }];
+  [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+-(void)cancelAll {
+  [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
+    if ([value isKindOfClass:[DownloadImage class]]) {
+      DownloadImage *download = value;
+      [download.downloadTask cancel];
+    }
+  }];
+//  [self.dataSource removeAllObjects];
+  self.dataSource = nil;
+  [self.listActiveDownload removeAllObjects];
+  [self.tableView reloadData];
+}
+
+-(void)startDownloadBooks {
   queue = [[NSOperationQueue alloc] init];
-  queue.maxConcurrentOperationCount = self.sliderNumberThread.value;
+  //  queue.maxConcurrentOperationCount = self.sliderNumberThread.value;
+  queue.maxConcurrentOperationCount = 2;
   
   for (StoryBook* book in self.dataSource) {
     [[FileManager shareInstance] getDirectoryOrCreate:[NSString stringWithFormat:@"%@/%@",FOLDER_MANGA,[book.name stringByDeletingPathExtension]]];
@@ -70,12 +136,11 @@
       [self startDownLoad:book];
     }];
     if ( queue.operations.count != 0 )
-    [currentOperation addDependency:[queue.operations lastObject]];
+      [currentOperation addDependency:[queue.operations lastObject]];
     [queue addOperation:currentOperation];
   }
   
 }
-
 
 -(void)startDownLoad:(StoryBook*) book {
   Download *downloadBook = [[Download alloc]initWithURL:book.path];
@@ -83,17 +148,28 @@
   downloadBook.name = book.name;
   downloadBook.index = book.index;
   downloadBook.downloadImages = book.pages;
-  [listActiveDownload setObject:downloadBook forKey:book.name];
-  for (NSString *urlStr in book.pages) {
-    NSURL *url = [NSURL URLWithString:urlStr];
-    DownloadImage *downloadPage = [[DownloadImage alloc]initWithURL:urlStr];
+  [self.listActiveDownload setObject:downloadBook forKey:book.name];
+  for (int i = 0; i < book.pages.count; i++) {
+    NSString *urlString = book.pages[i];
+    NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%d",urlString,i];
+    NSURL *url = [NSURL URLWithString:urlString];
+    DownloadImage *downloadPage = [[DownloadImage alloc]initWithURL:urlString];
     downloadPage.downloadTask = [self.downloadsSession downloadTaskWithURL:url];
+    downloadPage.downloadTask.taskDescription = [NSString stringWithFormat:@"%d",i];
     downloadPage.nameBook = book.name;
+    [self.listActiveDownload setObject:downloadPage forKey:uniqueUrl];
     [downloadPage.downloadTask resume];
     downloadPage.isDownloading = true;
-    [listActiveDownload setObject:downloadPage forKey:urlStr];
   }
-  
+}
+
+- (void)downloadZipFileWithURL:(NSString*) urlString {
+  NSURL *dataUrl = [NSURL URLWithString:urlString];
+  DownloadImage *downloadJsonData = [[DownloadImage alloc]initWithURL:urlString];
+  downloadJsonData.downloadTask = [self.downloadsSession downloadTaskWithURL:dataUrl];
+  [downloadJsonData.downloadTask resume];
+  downloadJsonData.isDownloading = true;
+  [self.listActiveDownload setObject:downloadJsonData forKey:urlString];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -120,32 +196,48 @@
 #pragma mark - NSURLSessionDownloadDelegate
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
   
-  DownloadImage *dImg = [listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
-  
-  NSLog(@"%@ :Finish download URL: %@",dImg.nameBook,downloadTask.originalRequest.URL.absoluteString);
-  Download *dObj = [listActiveDownload objectForKey:dImg.nameBook];
-  
-  //move to MANGA FOLDER
-  NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
-  NSURL *desURL = [NSURL URLWithString:mangaFolder];
-  // Get the file name and create a destination URL
-  NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
-  [[FileManager shareInstance] moveFileAtPath:location toFolder:[NSString stringWithFormat:@"%@/%@",FOLDER_MANGA,[dObj.name stringByDeletingPathExtension]] withName:sendingFileName];
-  NSLog(@"Image Saved At: %@/%@", [desURL path],sendingFileName);
-  
-  //update progress
-  dispatch_async(dispatch_get_main_queue(), ^{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
-    ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%f",dObj.progress);
-    dObj.progress += 1.0 / (float)dObj.downloadImages.count;
-    cell.viewProgress.progress = dObj.progress;
-    if (cell.viewProgress.progress >= 0.95) {
-      cell.lbStatus.text = STATUS_FINISHED;
-    } else {
-      cell.lbStatus.text = STATUS_DOWNLOADING;
-    }
-  });
+  if (isDownDataSource) {
+    [self finishDownDataSource:downloadTask location:location];
+    [self reloadTableView];
+    isDownDataSource = NO;
+    [self startDownloadBooks];
+    [self removeDownloadObjectWithKey:downloadTask.originalRequest.URL.absoluteString];
+  } else {
+    NSString *identifierTask = downloadTask.taskDescription;
+    NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",downloadTask.originalRequest.URL.absoluteString,identifierTask];
+//    NSLog(@"unique: %@",uniqueUrl);
+    DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
+    Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+    if (dObj != nil) {
+    dImg.isDownloading = false;
+    [self finishDownloadTask:downloadTask location:location moveDataToFolder:FOLDER_MANGA withName:[dObj.name stringByDeletingPathExtension]];
+    //update progress
+    dispatch_async(dispatch_get_main_queue(), ^{
+      NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
+      ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+      
+      dObj.progress += 1.0 / (float)dObj.downloadImages.count;
+      //      NSLog(@"update to: %d",dObj.index);
+      //      if (dObj.index == 0) {
+      //        row1++;
+      //        NSLog(@"item downloaded: %d",row1);
+      //      }
+      if (dObj.index == 2) {
+      }
+      
+      if (dObj.progress >= 0.98) {
+        cell.lbStatus.text = STATUS_FINISHED;
+        dObj.isDownloading = false;
+      } else {
+        if (![cell.lbStatus.text  isEqual: STATUS_FINISHED]) {
+          cell.lbStatus.text = STATUS_DOWNLOADING;
+        }
+      }
+      [self removeDownloadObjectWithKey:uniqueUrl];
+      cell.viewProgress.progress = dObj.progress;
+    });
+  }
+  }
   
 }
 
@@ -156,9 +248,99 @@
 
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-  NSLog(@"Error: %@",error);
+    if (!isDownDataSource && !isPause) {
+      NSString *identifierTask = task.taskDescription;
+      NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
+      DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
+      Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+      dImg.isDownloading = false;
+      //update progress
+      dispatch_async(dispatch_get_main_queue(), ^{
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
+        ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        if (error.code != 0) {
+          dObj.progress += 1.0 / (float)dObj.downloadImages.count;
+          if (dObj.progress >= 0.98) {
+            cell.lbStatus.text = STATUS_FINISHED;
+            dObj.isDownloading = false;
+          }
+          [self removeDownloadObjectWithKey:uniqueUrl];
+          cell.viewProgress.progress = dObj.progress;
+        }
+      });
+    }
 }
 
+-(void)finishDownDataSource:(NSURLSessionDownloadTask*) downloadTask location:(NSURL*) location{
+  //move to MANGA FOLDER
+  NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
+  NSURL *desURL = [NSURL URLWithString:mangaFolder];
+  // Get the file name and create a destination URL
+  NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
+  [self.dataSource addObject:[sendingFileName stringByDeletingPathExtension]];
+  [[FileManager shareInstance] moveFileAtPath:location toFolder:FOLDER_MANGA withName:sendingFileName];
+  NSLog(@"Saved At: %@/%@", [desURL path],sendingFileName);
+  
+  //upzip and delete old file
+  NSString *pathZip = [NSString stringWithFormat:@"%@/%@",[desURL path],sendingFileName];
+  [[FileManager shareInstance] unzipAndDeleteFile:pathZip toDestination:[desURL path] isDeleteOldFile:YES];
+  [self parseJsonToDataSource];
+}
+
+-(void) parseJsonToDataSource{
+  NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
+  NSString *pathMangaList = [mangaFolder stringByAppendingString:[NSString stringWithFormat:@"/%@",[self.dataSource lastObject]]];
+  //get list file in path
+  NSArray *listFiles = [[FileManager shareInstance] getListFilesInPath:pathMangaList];
+  
+  NSArray *dataSource = [self parseJsons:listFiles];
+  self.dataSource = [dataSource copy];
+}
+
+//parse json to Book object
+-(NSArray*)parseJsons:(NSArray*) listFiles {
+  NSMutableArray *dataSource = [[NSMutableArray alloc]init];
+  for (int i = 0; i < listFiles.count; i++) {
+    NSString *pathJson = listFiles[i];
+    StoryBook *book = [[StoryBook alloc]initWithPath:pathJson];
+    book.index = i;
+    NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
+    book.pages = listPages;
+    NSString *nameFile = [pathJson lastPathComponent];
+    book.name = nameFile;
+    [dataSource addObject:book];
+  }
+  
+  return dataSource;
+}
+
+-(void)finishDownloadTask:(NSURLSessionDownloadTask*) downloadTask
+                 location:(NSURL*) location
+         moveDataToFolder:(NSString*) folder
+                 withName:(NSString*) name {
+  // Get the file name and create a destination URL
+  NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
+  [[FileManager shareInstance] moveFileAtPath:location toFolder:[NSString stringWithFormat:@"%@/%@",folder,name] withName:sendingFileName];
+  //  NSLog(@"Image Saved At: %@/%@", [desURL path],sendingFileName);
+}
+
+//reload tableview with completiom
+-(void)reloadTableView {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.tableView reloadData];
+    [self.btnAdd setEnabled:NO];
+  });
+}
+
+-(void) removeDownloadObjectWithKey:(NSString*) key {
+  if ([self.listActiveDownload objectForKey:key]) {
+    [self.listActiveDownload removeObjectForKey:key];
+    //    NSLog(@"Before: %lu",(unsigned long)listActiveDownload.count);
+    
+  } else {
+    NSLog(@"No object set for key @%@",key);
+  }
+}
 
 
 @end

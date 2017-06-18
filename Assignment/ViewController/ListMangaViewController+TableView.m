@@ -15,6 +15,9 @@
 
 #pragma UITableViewDelegate & datasource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if (self.dataSource.count == 0 || self.dataSource == nil) {
+    return 0;
+  }
   return [self.dataSource count];
 }
 
@@ -29,12 +32,11 @@
     cell.lbStatus.text = STATUS_QUEUING;
   }
   
-  
   return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-  return 90;
+  return 80;
 }
 
 
