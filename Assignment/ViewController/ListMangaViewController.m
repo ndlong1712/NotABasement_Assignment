@@ -66,7 +66,8 @@
   isDownDataSource = YES;
   [self.btnPauseResume setEnabled:YES];
   [self.btnDelete setEnabled:YES];
-  [self downloadZipFileWithURL:SERVER_URL_DATA];
+//  [self tempFunc];
+    [self downloadZipFileWithURL:SERVER_URL_DATA];
 }
 
 -(void)pauseAll {
@@ -74,15 +75,18 @@
   [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
     if ([value isKindOfClass:[DownloadImage class]]) {
       DownloadImage *download = value;
-      if (download.isDownloading) {
-        [download.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-          if (resumeData != nil) {
-            download.resumeData = resumeData;
-          }
-        }];
-      } else {
-        [download.downloadTask cancel];
-      }
+//      if (download.isDownloading) {
+//        [download.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+//          if (resumeData != nil) {
+//            download.resumeData = resumeData;
+//          } else {
+//          
+//          }
+//        }];
+//      } else {
+//        [download.downloadTask cancel];
+//      }
+      [download.downloadTask cancel];
       download.isDownloading = false;
     }
   }];
@@ -194,7 +198,6 @@
 
 #pragma mark - NSURLSessionDownloadDelegate
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
-  
   if (isDownDataSource) {
     [self finishDownDataSource:downloadTask location:location];
     [self reloadTableView];
@@ -241,36 +244,36 @@
           }
         }
         [self removeDownloadObjectWithKey:uniqueUrl];
+        NSLog(@"Downloaded: %lu",(unsigned long)self.listActiveDownload.count);
         cell.viewProgress.progress = dObj.progress;
       });
     }
   }
-  
 }
 
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-  if (!isDownDataSource && !isPause) {
-    NSString *identifierTask = task.taskDescription;
-    NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
-    DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
-    Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
-    dImg.isDownloading = false;
-    //update progress
-    dispatch_async(dispatch_get_main_queue(), ^{
-      NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
-      ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    if (!isDownDataSource && !isPause) {
       if (error.code != 0) {
-        dObj.progress += 1.0 / (float)dObj.downloadImages.count;
-        if (dObj.progress >= 0.98) {
-          cell.lbStatus.text = STATUS_FINISHED;
-          dObj.isDownloading = false;
-        }
-        [self removeDownloadObjectWithKey:uniqueUrl];
-        cell.viewProgress.progress = dObj.progress;
+      NSString *identifierTask = task.taskDescription;
+      NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
+      DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
+      Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+      dImg.isDownloading = false;
+      //update progress
+      dispatch_async(dispatch_get_main_queue(), ^{
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
+        ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+          dObj.progress += 1.0 / (float)dObj.downloadImages.count;
+          if (dObj.progress >= 0.98) {
+            cell.lbStatus.text = STATUS_FINISHED;
+            dObj.isDownloading = false;
+          }
+          [self removeDownloadObjectWithKey:uniqueUrl];
+          cell.viewProgress.progress = dObj.progress;
+      });
       }
-    });
-  }
+    }
 }
 
 -(void)finishDownDataSource:(NSURLSessionDownloadTask*) downloadTask location:(NSURL*) location{
@@ -287,6 +290,21 @@
   NSString *pathZip = [NSString stringWithFormat:@"%@/%@",[desURL path],sendingFileName];
   [[FileManager shareInstance] unzipAndDeleteFile:pathZip toDestination:[desURL path] isDeleteOldFile:YES];
   [self parseJsonToDataSource];
+}
+
+-(void)tempFunc{
+  NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
+  NSString *pathJson = [NSString stringWithFormat:@"%@/JSON files updated/images0.json",mangaFolder];
+  StoryBook *book = [[StoryBook alloc]initWithPath:pathJson];
+  book.index = 0;
+  NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
+  book.pages = listPages;
+  NSString *nameFile = [pathJson lastPathComponent];
+  book.name = nameFile;
+  [self.dataSource addObject:book];
+  [self reloadTableView];
+  isDownDataSource = NO;
+  [self startDownloadBooks];
 }
 
 -(void) parseJsonToDataSource{
