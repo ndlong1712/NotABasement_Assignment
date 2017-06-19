@@ -30,6 +30,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    DownloadImage *downImg = [_arrManga objectAtIndex:0];
+    [self setTitle:[downImg.nameBook stringByDeletingPathExtension]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(progressUpdated:) name:kNotifiProgress object:nil];
 }
 
@@ -84,8 +86,9 @@
         DownloadImage *downloadImg = notification.object;
         if (downloadImg.imgFilePath != nil) {
             @try {
-                UIImage *destImg = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
-                cell.imgManga.image = [self imageWithImage:destImg convertToSize:CGSizeMake(100, 100)];
+                NSData *data = [[NSFileManager defaultManager] contentsAtPath:downloadImg.imgFilePath];
+                UIImage *destImg = [UIImage imageWithData:data];
+                cell.imgManga.image = destImg;
             } @catch (NSException *exception) {
                 NSLog(@"Error");
             }
