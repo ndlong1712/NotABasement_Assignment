@@ -12,5 +12,10 @@
 @interface Utilities : NSObject
 
 +(UIViewController*)getViewController:(NSString*) identifier;
++(void)showAlertWithTitle:(NSString*) title
+                  message:(NSString*)message
+              cancelTitle:(NSString*)cancelTitle
+                  okTitle:(NSString*)okTitle
+                   inview:(UIViewController*)viewController;
 
 @end

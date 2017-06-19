@@ -14,6 +14,8 @@
 #import "Download.h"
 #import "ParseJson.h"
 #import "MBProgressHUD.h"
+#import "Reachability.h"
+#import "Utilities.h"
 
 #define Pause @"Pause"
 #define Resume @"Resume"
@@ -21,6 +23,7 @@
 @interface ListMangaViewController ()<NSURLSessionDownloadDelegate> {
   NSOperationQueue *queue;
   NSMutableArray *pages;
+  Reachability *reachability;
   int maxOperations;
   BOOL isDownDataSource;
   BOOL isStartDownload;
@@ -34,13 +37,37 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.automaticallyAdjustsScrollViewInsets = NO;
+  [self setUpReachabilityToCheckNetwork];
   self.listActiveDownload = [[NSMutableDictionary alloc] init];
   maxOperations = self.sliderNumberThread.value;
   [self.btnPauseResume setEnabled:NO];
   [self.btnDelete setEnabled:NO];
   pages = [[NSMutableArray alloc]init];
+  self.sliderNumberThread.value = 2;
   [self configURLSession];
   
+}
+
+-(void)setUpReachabilityToCheckNetwork{
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(networkStateChanged:)
+                                               name:kReachabilityChangedNotification object:nil];
+  reachability = [Reachability reachabilityForInternetConnection];
+  [reachability startNotifier];
+}
+
+- (void)networkStateChanged:(NSNotification *)notice {
+  NetworkStatus currentNetStatus = [reachability currentReachabilityStatus];
+  if (currentNetStatus == NotReachable) {
+    [Utilities showAlertWithTitle:nil message:@"No network!" cancelTitle:@"Cancel" okTitle:@"Ok" inview:self];
+    [self pauseAll];
+    [self.btnPauseResume setEnabled:NO];
+  } else {
+    if (self.listActiveDownload.count > 0) {
+      [self.btnPauseResume setEnabled:YES];
+    }
+    [self resumeAll];
+  }
 }
 
 - (IBAction)deleteAll:(id)sender {
@@ -56,18 +83,28 @@
     [self pauseAll];
     isPause = YES;
   } else {
-    [self.btnPauseResume setTitle:Pause];
-    [self resumeAll];
-    isPause = NO;
+    if ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable) {
+      [Utilities showAlertWithTitle:nil message:@"No network!" cancelTitle:@"Cancel" okTitle:@"Ok" inview:self];
+    } else {
+      [self.btnPauseResume setTitle:Pause];
+      [self resumeAll];
+      isPause = NO;
+    }
   }
 }
+
 - (IBAction)addData:(id)sender {
-  self.dataSource = [[NSMutableArray alloc]init];
-  isDownDataSource = YES;
-  [self.btnPauseResume setEnabled:YES];
-  [self.btnDelete setEnabled:YES];
-  //  [self tempFunc];
-  [self downloadZipFileWithURL:SERVER_URL_DATA];
+  //check network
+  if ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable) {
+    [Utilities showAlertWithTitle:nil message:@"No network!" cancelTitle:@"Cancel" okTitle:@"Ok" inview:self];
+  } else {
+    self.dataSource = [[NSMutableArray alloc]init];
+    isDownDataSource = YES;
+    [self.btnPauseResume setEnabled:YES];
+    [self.btnDelete setEnabled:YES];
+    //  [self tempFunc];
+    [self downloadZipFileWithURL:SERVER_URL_DATA];
+  }
 }
 
 -(void)pauseAll {
@@ -199,6 +236,9 @@
 
 #pragma mark - NSURLSessionDownloadDelegate
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location{
+  if (self.listActiveDownload.count == 0) {
+    [self.btnPauseResume setEnabled:NO];
+  }
   if (isDownDataSource) {
     [self finishDownDataSource:downloadTask location:location];
     [self reloadTableView];
@@ -228,10 +268,9 @@
         ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         
         dObj.progress += 1.0 / (float)dObj.downloadImages.count;
-        //      NSLog(@"update to: %d",dObj.index);
-        if (dObj.index == 6) {
-          NSLog(@"item downloaded: %f",dObj.progress);
-        }
+//        if (dObj.index == 6) {
+//          NSLog(@"item downloaded: %f",dObj.progress);
+//        }
         
         if (dObj.progress >= 0.98) {
           cell.lbStatus.text = STATUS_FINISHED;
@@ -251,7 +290,10 @@
 
 
 -(void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
-  if (!isDownDataSource && !isPause) {
+  if (self.listActiveDownload.count == 0) {
+    [self.btnPauseResume setEnabled:NO];
+  }
+  if (!isDownDataSource && !isPause && [reachability currentReachabilityStatus] != NotReachable) {
     if (error.code != 0) {
       NSString *identifierTask = task.taskDescription;
       NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
@@ -335,7 +377,7 @@
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
   DownloadImage *dImg = [_listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
   dImg.progress = (float)bytesWritten/(float)totalBytesExpectedToWrite*100;
-  //NSLog(@"Khoa progress : %ld", (long)dImg.progress);
+//  NSLog(@"Khoa progress : %ld", (long)dImg.progress);
   Download *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
   if (dObj.isSelected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];

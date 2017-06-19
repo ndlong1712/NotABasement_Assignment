@@ -16,4 +16,21 @@
   return controller;
 }
 
++(void)showAlertWithTitle:(NSString*) title
+                  message:(NSString*)message
+              cancelTitle:(NSString*)cancelTitle
+                  okTitle:(NSString*)okTitle
+                   inview:(UIViewController*)viewController {
+  UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
+                                                                 message:message
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+  
+  UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:okTitle style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * action) {}];
+  
+  [alert addAction:defaultAction];
+  [viewController presentViewController:alert animated:YES completion:nil];
+  
+}
+
 @end

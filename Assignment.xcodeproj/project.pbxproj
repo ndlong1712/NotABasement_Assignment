@@ -11,6 +11,7 @@
 		22F8F7261EF64180005E35BA /* MangaDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8F7251EF64180005E35BA /* MangaDetailViewController.m */; };
 		22F8F72A1EF64D21005E35BA /* MangaCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8F7291EF64D21005E35BA /* MangaCollectionViewCell.m */; };
 		22F8F72D1EF6A91E005E35BA /* MangaDetailFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8F72C1EF6A91E005E35BA /* MangaDetailFlowLayout.m */; };
+		9A2ADB221EF83BD7000F18C7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB211EF83BD7000F18C7 /* Reachability.m */; };
 		9A3D484C1EF2EB1100252065 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D484B1EF2EB1100252065 /* main.m */; };
 		9A3D484F1EF2EB1100252065 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D484E1EF2EB1100252065 /* AppDelegate.m */; };
 		9A3D48521EF2EB1100252065 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48511EF2EB1100252065 /* ViewController.m */; };
@@ -67,6 +68,8 @@
 		546EE58B8F71EE35A80A0D0D /* Pods-AssignmentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AssignmentUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AssignmentUITests/Pods-AssignmentUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5F212791448510A3E48339FC /* Pods-Assignment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Assignment.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Assignment/Pods-Assignment.debug.xcconfig"; sourceTree = "<group>"; };
 		942C5AFBAAACA6386408411A /* libPods-Assignment.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assignment.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A2ADB201EF83BD7000F18C7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
+		9A2ADB211EF83BD7000F18C7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
 		9A3D48471EF2EB1100252065 /* Assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A3D484B1EF2EB1100252065 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9A3D484D1EF2EB1100252065 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -166,6 +169,15 @@
 				A326C54774790FAAD2B93FD0 /* Pods-AssignmentUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		9A2ADB1F1EF83ABF000F18C7 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9A2ADB201EF83BD7000F18C7 /* Reachability.h */,
+				9A2ADB211EF83BD7000F18C7 /* Reachability.m */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		9A3D483E1EF2EB1100252065 = {
@@ -295,6 +307,7 @@
 		9A3D48971EF38DF500252065 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9A2ADB1F1EF83ABF000F18C7 /* Reachability */,
 				9A3D48981EF38E4600252065 /* Compress */,
 			);
 			name = Libraries;
@@ -669,6 +682,7 @@
 				9A3D48881EF381C600252065 /* HomeViewController.m in Sources */,
 				9A3D48D31EF4403000252065 /* Utilities.m in Sources */,
 				9A3D48C41EF3F9A700252065 /* HomeTableViewCell.m in Sources */,
+				9A2ADB221EF83BD7000F18C7 /* Reachability.m in Sources */,
 				9A3D48951EF389BF00252065 /* FileManager.m in Sources */,
 				9A3D48841EF37C1800252065 /* Download.m in Sources */,
 				22F8F72A1EF64D21005E35BA /* MangaCollectionViewCell.m in Sources */,
