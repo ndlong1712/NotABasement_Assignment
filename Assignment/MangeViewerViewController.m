@@ -38,7 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     DownloadImage *downImg = [_arrManga objectAtIndex:0];
     [self setTitle:[downImg.nameBook stringByDeletingPathExtension]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(progressUpdated:) name:kNotifiProgress object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(progressUpdated:) name:kNotifiProgress object:nil];
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     [_mangaViewerCollectionView setContentSize:CGSizeMake(_arrManga.count*width, height)];

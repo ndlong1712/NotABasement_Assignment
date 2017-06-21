@@ -74,6 +74,7 @@
   [self cancelAll];
   [self.btnPauseResume setEnabled:NO];
   [self.btnAdd setEnabled:YES];
+  [self.listActiveDownload removeAllObjects];
 }
 
 - (IBAction)pauseOrResumeAll:(id)sender {
@@ -94,6 +95,8 @@
 }
 
 - (IBAction)addData:(id)sender {
+  [self.btnPauseResume setTitle:Pause];
+  isPause = NO;
   //check network
   if ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable) {
     [Utilities showAlertWithTitle:nil message:@"No network!" cancelTitle:@"Cancel" okTitle:@"Ok" inview:self];
