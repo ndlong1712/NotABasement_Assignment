@@ -52,7 +52,7 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
   MangeViewerViewController *mangeViewerVC = (MangeViewerViewController*) [Utilities getViewController:Manga_Viewer_Name];
-  mangeViewerVC.arrManga = _arrManga;
+  mangeViewerVC.arrManga = self.arrManga;
   mangeViewerVC.currentIndex = indexPath.row;
   [self.navigationController pushViewController:mangeViewerVC animated:YES];
 }
@@ -82,6 +82,7 @@
         [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:[downloadImg.imgFilePath stringByDeletingLastPathComponent] isDeleteOldFile:YES];
         NSString *fileName = [[downloadImg.imgFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:JPG_EXT];
         UIImage *image = [UIImage imageWithContentsOfFile:fileName];
+        downloadImg.imgFilePath = fileName;
         if (image != nil) {
           cell.imgManga.image = image;
           cell.progress.text = @"";
@@ -134,6 +135,7 @@
         [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:[downloadImg.imgFilePath stringByDeletingLastPathComponent] isDeleteOldFile:YES];
         NSString *fileName = [[downloadImg.imgFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:JPG_EXT];
         UIImage *image = [UIImage imageWithContentsOfFile:fileName];
+        downloadImg.imgFilePath = fileName;
         if (image != nil) {
           cell.imgManga.image = image;
           cell.progress.text = @"";

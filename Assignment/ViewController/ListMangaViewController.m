@@ -82,7 +82,7 @@
   [self.btnAdd setEnabled:YES];
   [self.btnPauseResume setTitle:Pause];
   isPause = NO;
-  double delayInSeconds = 2.0;
+  double delayInSeconds = 2.5;
   dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
   dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -105,6 +105,11 @@
       isPause = NO;
     }
   }
+  double delayInSeconds = 2.0;
+  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+  });
 }
 
 - (IBAction)addData:(id)sender {
@@ -132,7 +137,6 @@
       download.isDownloading = false;
     }
   }];
-  [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 //Resume all download task
@@ -155,7 +159,6 @@
       [queue addOperation:currentOperation];
     }
   }];
-  [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 //Cancel all downloadtask
