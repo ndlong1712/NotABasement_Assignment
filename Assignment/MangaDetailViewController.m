@@ -59,7 +59,9 @@
     MangaCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     DownloadImage *downloadImg = [_arrManga objectAtIndex:indexPath.row];
     if (downloadImg.imgFilePath != nil) {
+      dispatch_async(dispatch_get_main_queue(), ^{
         cell.imgManga.image = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
+      });
     } else {
         [cell.imgManga setBackgroundColor:[UIColor grayColor]];
     }

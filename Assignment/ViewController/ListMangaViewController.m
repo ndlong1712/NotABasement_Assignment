@@ -8,10 +8,9 @@
 
 #import "ListMangaViewController.h"
 #import "ListMangaTableViewCell.h"
-#import "StoryBook.h"
 #import "FileManager.h"
 #import "Define.h"
-#import "Download.h"
+#import "DownloadBook.h"
 #import "ParseJson.h"
 #import "MBProgressHUD.h"
 #import "Reachability.h"
@@ -43,7 +42,8 @@
   [self.btnPauseResume setEnabled:NO];
   [self.btnDelete setEnabled:NO];
   pages = [[NSMutableArray alloc]init];
-  self.sliderNumberThread.value = 2;
+  self.sliderNumberThread.value = 3;
+  self.lbMaxNumber.text = @"3";
   [self configURLSession];
   
 }
@@ -167,10 +167,9 @@
 
 -(void)startDownloadBooks {
   queue = [[NSOperationQueue alloc] init];
-  //  queue.maxConcurrentOperationCount = self.sliderNumberThread.value;
-  queue.maxConcurrentOperationCount = 1;
+  queue.maxConcurrentOperationCount = self.sliderNumberThread.value;
   
-  for (StoryBook* book in self.dataSource) {
+  for (DownloadBook* book in self.dataSource) {
     [[FileManager shareInstance] getDirectoryOrCreate:[NSString stringWithFormat:@"%@/%@",FOLDER_MANGA,[book.name stringByDeletingPathExtension]]];
     NSBlockOperation *currentOperation = [NSBlockOperation blockOperationWithBlock:^{
       [self startDownLoad:book];
@@ -182,8 +181,8 @@
   
 }
 
--(void)startDownLoad:(StoryBook*) book {
-  Download *downloadBook = [[Download alloc]initWithURL:book.path];
+-(void)startDownLoad:(DownloadBook*) book {
+  DownloadBook *downloadBook = [[DownloadBook alloc]initWithURL:book.path];
   downloadBook.isDownloading = true;
   downloadBook.name = book.name;
   downloadBook.index = book.index;
@@ -198,9 +197,9 @@
     downloadPage.downloadTask.taskDescription = [NSString stringWithFormat:@"%d",i];
     downloadPage.nameBook = book.name;
     [self.listActiveDownload setObject:downloadPage forKey:uniqueUrl];
-    [downloadPage.downloadTask resume];
     downloadPage.isDownloading = true;
-    [downloadBook.downloadImages addObject:downloadPage];
+    [downloadBook.pages addObject:downloadPage];
+    [downloadPage.downloadTask resume];
   }
 }
 
@@ -250,7 +249,7 @@
     NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",downloadTask.originalRequest.URL.absoluteString,identifierTask];
     //    NSLog(@"unique: %@",uniqueUrl);
     DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
-    Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+    DownloadBook *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
     NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
     NSURL *desURL = [NSURL URLWithString:mangaFolder];
     NSString *sendingFileName = [downloadTask.originalRequest.URL lastPathComponent];
@@ -267,10 +266,10 @@
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
         ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         
-        dObj.progress += 1.0 / (float)dObj.downloadImages.count;
-//        if (dObj.index == 6) {
-//          NSLog(@"item downloaded: %f",dObj.progress);
-//        }
+        dObj.progress += 1.0 / (float)dObj.pages.count;
+        //        if (dObj.index == 6) {
+        //          NSLog(@"item downloaded: %f",dObj.progress);
+        //        }
         
         if (dObj.progress >= 0.98) {
           cell.lbStatus.text = STATUS_FINISHED;
@@ -298,13 +297,13 @@
       NSString *identifierTask = task.taskDescription;
       NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
       DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
-      Download *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
+      DownloadBook *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
       dImg.isDownloading = false;
       //update progress
       dispatch_async(dispatch_get_main_queue(), ^{
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
         ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        dObj.progress += 1.0 / (float)dObj.downloadImages.count;
+        dObj.progress += 1.0 / (float)dObj.pages.count;
         if (dObj.progress >= 0.98) {
           cell.lbStatus.text = STATUS_FINISHED;
           dObj.isDownloading = false;
@@ -335,10 +334,10 @@
 -(void)tempFunc{
   NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
   NSString *pathJson = [NSString stringWithFormat:@"%@/JSON files updated/images0.json",mangaFolder];
-  StoryBook *book = [[StoryBook alloc]initWithPath:pathJson];
+  DownloadBook *book = [[DownloadBook alloc]initWithURL:pathJson];
   book.index = 0;
   NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
-  book.pages = listPages;
+  book.pages = [listPages copy];
   NSString *nameFile = [pathJson lastPathComponent];
   book.name = nameFile;
   [self.dataSource addObject:book];
@@ -362,10 +361,10 @@
   NSMutableArray *dataSource = [[NSMutableArray alloc]init];
   for (int i = 0; i < listFiles.count; i++) {
     NSString *pathJson = listFiles[i];
-    StoryBook *book = [[StoryBook alloc]initWithPath:pathJson];
+    DownloadBook *book = [[DownloadBook alloc]initWithURL:pathJson];
     book.index = i;
     NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
-    book.pages = listPages;
+    book.pages = [listPages copy];
     NSString *nameFile = [pathJson lastPathComponent];
     book.name = nameFile;
     [dataSource addObject:book];
@@ -377,8 +376,8 @@
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
   DownloadImage *dImg = [_listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
   dImg.progress = (float)bytesWritten/(float)totalBytesExpectedToWrite*100;
-//  NSLog(@"Khoa progress : %ld", (long)dImg.progress);
-  Download *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
+  //  NSLog(@"Khoa progress : %ld", (long)dImg.progress);
+  DownloadBook *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
   if (dObj.isSelected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
   }

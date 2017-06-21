@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "StoryBook.h"
 #import "DownloadImage.h"
 
 typedef NS_ENUM(NSUInteger, Type) {
@@ -15,17 +14,16 @@ typedef NS_ENUM(NSUInteger, Type) {
   Manga,
 };
 
-@interface Download : NSObject
+@interface DownloadBook : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *url;
-@property (nonatomic, assign) Boolean isDownloading;
+@property (nonatomic, strong) NSString *path;
+@property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, assign) float progress;
 @property (nonatomic, assign) int index;
 
-@property (nonatomic, strong) NSMutableArray *downloadImages;
-@property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
-@property (nonatomic, assign) Type type;
+@property (nonatomic, strong) NSMutableArray *URLsSource;
+@property (nonatomic, strong) NSMutableArray *pages;
 @property (nonatomic, assign) BOOL isSelected;
 
 - (id)initWithURL:(NSString*) url;
