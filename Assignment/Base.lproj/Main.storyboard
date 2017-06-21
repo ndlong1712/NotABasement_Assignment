@@ -191,11 +191,10 @@
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pNv-eG-0u4">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntU-Sg-MHS">
-                                                    <rect key="frame" x="5" y="89" width="90" height="11"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                                    <rect key="frame" x="5" y="80" width="90" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -203,7 +202,7 @@
                                         </view>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="ntU-Sg-MHS" secondAttribute="bottom" id="0Qa-dC-NE1"/>
+                                            <constraint firstAttribute="bottom" secondItem="ntU-Sg-MHS" secondAttribute="bottom" constant="2" id="0Qa-dC-NE1"/>
                                             <constraint firstAttribute="bottom" secondItem="pNv-eG-0u4" secondAttribute="bottom" id="51t-nB-JU2"/>
                                             <constraint firstItem="ntU-Sg-MHS" firstAttribute="leading" secondItem="vse-ee-AK0" secondAttribute="leading" constant="5" id="Da2-w9-A56"/>
                                             <constraint firstAttribute="trailing" secondItem="ntU-Sg-MHS" secondAttribute="trailing" constant="5" id="Lev-ac-WId"/>

@@ -11,6 +11,8 @@
 #import "DownloadImage.h"
 #import "Define.h"
 #import "MangeViewerFlowLayout.h"
+#import "UIImage+PDF.h"
+#import "FileManager.h"
 
 @interface MangeViewerViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -77,7 +79,19 @@
     MangaViewerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     DownloadImage *downloadImg = [_arrManga objectAtIndex:indexPath.row];
     if (downloadImg.imgFilePath != nil) {
+      NSString *extension = [downloadImg.imgFilePath pathExtension];
+      if ([extension isEqualToString:PDF_EXT]) {
+        NSData *dataImage = [NSData dataWithContentsOfFile:downloadImg.imgFilePath];
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        CGFloat height = [UIScreen mainScreen].bounds.size.height;
+        CGSize mElementSize = CGSizeMake(width, height);
+        cell.imgView.image = [UIImage imageWithPDFData:dataImage atSize:mElementSize];
+        
+      } else if ([extension isEqualToString:ZIP_EXT]) {
+        
+      } else {
         cell.imgView.image = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
+      }
     } else {
         [cell.imgView setBackgroundColor:[UIColor grayColor]];
     }
@@ -94,9 +108,21 @@
         DownloadImage *downloadImg = notification.object;
         if (downloadImg.imgFilePath != nil) {
             @try {
+              NSString *extension = [downloadImg.imgFilePath pathExtension];
+              if ([extension isEqualToString:PDF_EXT]) {
+                NSData *dataImage = [NSData dataWithContentsOfFile:downloadImg.imgFilePath];
+                CGFloat width = [UIScreen mainScreen].bounds.size.width;
+                CGFloat height = [UIScreen mainScreen].bounds.size.height;
+                CGSize mElementSize = CGSizeMake(width, height);
+                cell.imgView.image = [UIImage imageWithPDFData:dataImage atSize:mElementSize];
+                
+              } else if ([extension isEqualToString:ZIP_EXT]) {
+                [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:downloadImg.imgFilePath isDeleteOldFile:YES];
+              } else {
                 NSData *data = [[NSFileManager defaultManager] contentsAtPath:downloadImg.imgFilePath];
                 UIImage *destImg = [UIImage imageWithData:data];
                 cell.imgView.image = destImg;
+              }
             } @catch (NSException *exception) {
                 NSLog(@"Error");
             }

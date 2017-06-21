@@ -28,8 +28,12 @@ static NSString *mangaDetailName = @"MangaDetailViewController";
   ListMangaTableViewCell *cell = (ListMangaTableViewCell *)[tableView dequeueReusableCellWithIdentifier:ListMangaCelllName];
   DownloadBook *book = self.dataSource[indexPath.row];
   cell.lbNameManga.text = book.name;
+  if (book.progress == 0) {
+    cell.lbStatus.text = STATUS_QUEUING;
+  }
+  cell.viewProgress.progress = 0;
   if (([cell.lbStatus.text  isEqual: STATUS_FINISHED] || [cell.lbStatus.text  isEqual: STATUS_DOWNLOADING])) {
-    
+   
   } else {
     cell.lbStatus.text = STATUS_QUEUING;
   }

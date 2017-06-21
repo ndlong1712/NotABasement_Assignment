@@ -71,10 +71,17 @@
 }
 
 - (IBAction)deleteAll:(id)sender {
+  [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   [self cancelAll];
   [self.btnPauseResume setEnabled:NO];
   [self.btnAdd setEnabled:YES];
-  [self.listActiveDownload removeAllObjects];
+  [self.btnPauseResume setTitle:Pause];
+  isPause = NO;
+  double delayInSeconds = 3.0;
+  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+  });
 }
 
 - (IBAction)pauseOrResumeAll:(id)sender {
@@ -105,7 +112,7 @@
     isDownDataSource = YES;
     [self.btnPauseResume setEnabled:YES];
     [self.btnDelete setEnabled:YES];
-    //  [self tempFunc];
+//    [self tempFunc];
     [self downloadZipFileWithURL:SERVER_URL_DATA];
   }
 }
@@ -162,7 +169,6 @@
       [download.downloadTask cancel];
     }
   }];
-  //  [self.dataSource removeAllObjects];
   self.dataSource = nil;
   [self.listActiveDownload removeAllObjects];
   [self.tableView reloadData];
@@ -301,7 +307,11 @@
       NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",task.originalRequest.URL.absoluteString,identifierTask];
       DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
       DownloadBook *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
-      dImg.isDownloading = false;
+      dImg.imgFilePath = @"Error";
+      dImg.isDownloading = NO;
+      if (dObj.isSelected) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
+      }
       //update progress
       dispatch_async(dispatch_get_main_queue(), ^{
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:dObj.index inSection:0];
@@ -309,7 +319,7 @@
         dObj.progress += 1.0 / (float)dObj.pages.count;
         if (dObj.progress >= 0.98) {
           cell.lbStatus.text = STATUS_FINISHED;
-          dObj.isDownloading = false;
+          dObj.isDownloading = NO;
         }
         [self removeDownloadObjectWithKey:uniqueUrl];
         cell.viewProgress.progress = dObj.progress;
@@ -336,7 +346,7 @@
 
 -(void)tempFunc{
   NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
-  NSString *pathJson = [NSString stringWithFormat:@"%@/JSON files updated/images0.json",mangaFolder];
+  NSString *pathJson = [NSString stringWithFormat:@"%@/JSON files updated/images2.json",mangaFolder];
   DownloadBook *book = [[DownloadBook alloc]initWithURL:pathJson];
   book.index = 0;
   NSArray *listPages = [ParseJson parseJsonWithPath:pathJson];
@@ -377,13 +387,33 @@
 }
 
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-  DownloadImage *dImg = [_listActiveDownload objectForKey:downloadTask.originalRequest.URL.absoluteString];
-  dImg.progress = (float)bytesWritten/(float)totalBytesExpectedToWrite*100;
-  //  NSLog(@"Khoa progress : %ld", (long)dImg.progress);
+  NSString *identifierTask = downloadTask.taskDescription;
+  NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",downloadTask.originalRequest.URL.absoluteString,identifierTask];
+  DownloadImage *dImg = [_listActiveDownload objectForKey:uniqueUrl];
+  float percent = (float)totalBytesWritten / (float)totalBytesExpectedToWrite * 100;
+//  dImg.progress = (float)bytesWritten / (float)totalBytesExpectedToWrite * 100;
+  NSLog(@"Long progress : %f", percent);
+  dImg.progress = percent;
   DownloadBook *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
   if (dObj.isSelected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
   }
+  
+  // 1
+//  if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString,
+//    download = activeDownloads[downloadUrl] {
+//      // 2
+//      download.progress = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
+//      // 3
+//      let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
+//      // 4
+//      if let trackIndex = trackIndexForDownloadTask(downloadTask), let trackCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0)) as? TrackCell {
+//        dispatch_async(dispatch_get_main_queue(), {
+//          trackCell.progressView.progress = download.progress
+//          trackCell.progressLabel.text =  String(format: "%.1f%% of %@",  download.progress * 100, totalSize)
+//        })
+//      }
+//    }
   
 }
 

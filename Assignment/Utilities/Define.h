@@ -15,7 +15,7 @@
 #define TMP_EXT                 @"png"
 #define JPG_EXT                 @"jpg"
 #define ZIP_EXT                 @"zip"
-#define SMDT_EXT                @"pdf"
+#define PDF_EXT                @"pdf"
 #define TMP_DOWNLOADING_EXT     @"downloading"
 
 #define FOLDER_HOT_MANGA @"HOT_MANGA"

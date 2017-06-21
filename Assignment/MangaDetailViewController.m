@@ -12,6 +12,8 @@
 #import "MangaDetailFlowLayout.h"
 #import "MangeViewerViewController.h"
 #import "Utilities.h"
+#import "UIImage+PDF.h"
+#import "FileManager.h"
 
 @interface MangaDetailViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -36,16 +38,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   
-//  UIView.transitionWithView(self.mangaDetailCollectionView, duration: 1.0, options: .TransitionCrossDissolve, animations: {self.myTableView.reloadData()}, completion: nil)
-//  [UIView transitionWithView:self.mangaDetailCollectionView duration:1.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
-//    [self.mangaDetailCollectionView reloadData];
-//  } completion:^(BOOL finished) {
+  //  UIView.transitionWithView(self.mangaDetailCollectionView, duration: 1.0, options: .TransitionCrossDissolve, animations: {self.myTableView.reloadData()}, completion: nil)
+  //  [UIView transitionWithView:self.mangaDetailCollectionView duration:1.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+  //    [self.mangaDetailCollectionView reloadData];
+  //  } completion:^(BOOL finished) {
   
-//  }];
+  //  }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-//  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,15 +76,41 @@
   MangaCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
   DownloadImage *downloadImg = [_arrManga objectAtIndex:indexPath.row];
   if (downloadImg.imgFilePath != nil) {
+    [cell.imgManga setBackgroundColor:[UIColor clearColor]];
     dispatch_async(dispatch_get_main_queue(), ^{
-      cell.imgManga.image = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
+      NSString *extension = [downloadImg.imgFilePath pathExtension];
+      if ([extension isEqualToString:PDF_EXT]) {
+        NSData *dataImage = [NSData dataWithContentsOfFile:downloadImg.imgFilePath];
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        CGSize mElementSize = CGSizeMake(width/4 - 5, width/4 - 5);
+        cell.imgManga.image = [UIImage imageWithPDFData:dataImage atSize:mElementSize];
+        
+      } else if ([extension isEqualToString:ZIP_EXT]) {
+        cell.progress.text = @"Unzipping...";
+        [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:[downloadImg.imgFilePath stringByDeletingLastPathComponent] isDeleteOldFile:YES];
+        NSString *fileName = [[downloadImg.imgFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:JPG_EXT];
+        UIImage *image = [UIImage imageWithContentsOfFile:fileName];
+        if (image != nil) {
+          cell.imgManga.image = image;
+          cell.progress.text = @"";
+        } else {
+          cell.progress.text = @"ERROR!";
+        }
+      } else {
+        UIImage *image = [UIImage imageWithContentsOfFile:downloadImg.imgFilePath];
+        if (image != nil) {
+          cell.imgManga.image = image;
+        } else {
+          cell.progress.text = @"ERROR!";
+        }
+      }
     });
   } else {
     [cell.imgManga setBackgroundColor:[UIColor grayColor]];
   }
   
   if (downloadImg.isDownloading) {
-    cell.progress.text = [NSString stringWithFormat:@"Downloading %d", (int)downloadImg.progress];
+    cell.progress.text = [NSString stringWithFormat:@"%.2f%@", downloadImg.progress,@"%"];
   } else {
     cell.progress.text = @"";
   }
@@ -95,25 +123,46 @@
 }
 
 - (void)progressUpdated:(NSNotification *)notification {
+  NSInteger index = [_arrManga indexOfObject:notification.object];
+  NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
   dispatch_async(dispatch_get_main_queue(), ^{
-    NSInteger index = [_arrManga indexOfObject:notification.object];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     MangaCollectionViewCell *cell = (MangaCollectionViewCell *)[_mangaDetailCollectionView cellForItemAtIndexPath:indexPath];
     DownloadImage *downloadImg = notification.object;
     if (downloadImg.imgFilePath != nil) {
-      @try {
+      [cell.imgManga setBackgroundColor:[UIColor clearColor]];
+      NSString *extension = [downloadImg.imgFilePath pathExtension];
+      if ([extension isEqualToString:PDF_EXT]) {
+        NSData *dataImage = [NSData dataWithContentsOfFile:downloadImg.imgFilePath];
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        CGSize mElementSize = CGSizeMake(width/4 - 5, width/4 - 5);
+        cell.imgManga.image = [UIImage imageWithPDFData:dataImage atSize:mElementSize];
+        
+      } else if ([extension isEqualToString:ZIP_EXT]) {
+        cell.progress.text = @"Unzipping...";
+         [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:[downloadImg.imgFilePath stringByDeletingLastPathComponent] isDeleteOldFile:YES];
+         NSString *fileName = [[downloadImg.imgFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:JPG_EXT];
+        UIImage *image = [UIImage imageWithContentsOfFile:fileName];
+        if (image != nil) {
+          cell.imgManga.image = image;
+          cell.progress.text = @"";
+        } else {
+          cell.progress.text = @"ERROR!";
+        }
+      } else {
         NSData *data = [[NSFileManager defaultManager] contentsAtPath:downloadImg.imgFilePath];
         UIImage *destImg = [UIImage imageWithData:data];
-        cell.imgManga.image = destImg;
-      } @catch (NSException *exception) {
-        NSLog(@"Error");
+        if (destImg != nil) {
+          cell.imgManga.image = destImg;
+        } else {
+          cell.progress.text = @"ERROR!";
+        }
       }
     } else {
       [cell.imgManga setBackgroundColor:[UIColor grayColor]];
     }
     
     if (downloadImg.isDownloading) {
-      cell.progress.text = [NSString stringWithFormat:@"Downloading %d", (int)downloadImg.progress];
+      cell.progress.text = [NSString stringWithFormat:@"%.2f%@", downloadImg.progress,@"%"];
     } else {
       cell.progress.text = @"";
     }

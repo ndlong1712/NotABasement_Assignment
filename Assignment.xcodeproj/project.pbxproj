@@ -15,6 +15,11 @@
 		22F8F72A1EF64D21005E35BA /* MangaCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8F7291EF64D21005E35BA /* MangaCollectionViewCell.m */; };
 		22F8F72D1EF6A91E005E35BA /* MangaDetailFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F8F72C1EF6A91E005E35BA /* MangaDetailFlowLayout.m */; };
 		9A2ADB221EF83BD7000F18C7 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB211EF83BD7000F18C7 /* Reachability.m */; };
+		9A2ADB2F1EFAC223000F18C7 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB261EFAC223000F18C7 /* NSData+MD5.m */; };
+		9A2ADB301EFAC223000F18C7 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB281EFAC223000F18C7 /* NSString+MD5.m */; };
+		9A2ADB311EFAC223000F18C7 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB2A1EFAC223000F18C7 /* PDFView.m */; };
+		9A2ADB321EFAC223000F18C7 /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB2C1EFAC223000F18C7 /* UIImage+PDF.m */; };
+		9A2ADB331EFAC223000F18C7 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB2E1EFAC223000F18C7 /* UIView+Image.m */; };
 		9A3D484C1EF2EB1100252065 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D484B1EF2EB1100252065 /* main.m */; };
 		9A3D484F1EF2EB1100252065 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D484E1EF2EB1100252065 /* AppDelegate.m */; };
 		9A3D48521EF2EB1100252065 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48511EF2EB1100252065 /* ViewController.m */; };
@@ -77,6 +82,16 @@
 		9A2ADB201EF83BD7000F18C7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
 		9A2ADB211EF83BD7000F18C7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
 		9A2ADB231EF93CBE000F18C7 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		9A2ADB251EFAC223000F18C7 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5.h"; path = "Libraries/UIImage+PDF/NSData+MD5.h"; sourceTree = "<group>"; };
+		9A2ADB261EFAC223000F18C7 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5.m"; path = "Libraries/UIImage+PDF/NSData+MD5.m"; sourceTree = "<group>"; };
+		9A2ADB271EFAC223000F18C7 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MD5.h"; path = "Libraries/UIImage+PDF/NSString+MD5.h"; sourceTree = "<group>"; };
+		9A2ADB281EFAC223000F18C7 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+MD5.m"; path = "Libraries/UIImage+PDF/NSString+MD5.m"; sourceTree = "<group>"; };
+		9A2ADB291EFAC223000F18C7 /* PDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PDFView.h; path = "Libraries/UIImage+PDF/PDFView.h"; sourceTree = "<group>"; };
+		9A2ADB2A1EFAC223000F18C7 /* PDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PDFView.m; path = "Libraries/UIImage+PDF/PDFView.m"; sourceTree = "<group>"; };
+		9A2ADB2B1EFAC223000F18C7 /* UIImage+PDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+PDF.h"; path = "Libraries/UIImage+PDF/UIImage+PDF.h"; sourceTree = "<group>"; };
+		9A2ADB2C1EFAC223000F18C7 /* UIImage+PDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+PDF.m"; path = "Libraries/UIImage+PDF/UIImage+PDF.m"; sourceTree = "<group>"; };
+		9A2ADB2D1EFAC223000F18C7 /* UIView+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Image.h"; path = "Libraries/UIImage+PDF/UIView+Image.h"; sourceTree = "<group>"; };
+		9A2ADB2E1EFAC223000F18C7 /* UIView+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Image.m"; path = "Libraries/UIImage+PDF/UIView+Image.m"; sourceTree = "<group>"; };
 		9A3D48471EF2EB1100252065 /* Assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A3D484B1EF2EB1100252065 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9A3D484D1EF2EB1100252065 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -192,6 +207,23 @@
 				9A2ADB211EF83BD7000F18C7 /* Reachability.m */,
 			);
 			name = Reachability;
+			sourceTree = "<group>";
+		};
+		9A2ADB241EFAC208000F18C7 /* UIImage+PDF */ = {
+			isa = PBXGroup;
+			children = (
+				9A2ADB251EFAC223000F18C7 /* NSData+MD5.h */,
+				9A2ADB261EFAC223000F18C7 /* NSData+MD5.m */,
+				9A2ADB271EFAC223000F18C7 /* NSString+MD5.h */,
+				9A2ADB281EFAC223000F18C7 /* NSString+MD5.m */,
+				9A2ADB291EFAC223000F18C7 /* PDFView.h */,
+				9A2ADB2A1EFAC223000F18C7 /* PDFView.m */,
+				9A2ADB2B1EFAC223000F18C7 /* UIImage+PDF.h */,
+				9A2ADB2C1EFAC223000F18C7 /* UIImage+PDF.m */,
+				9A2ADB2D1EFAC223000F18C7 /* UIView+Image.h */,
+				9A2ADB2E1EFAC223000F18C7 /* UIView+Image.m */,
+			);
+			name = "UIImage+PDF";
 			sourceTree = "<group>";
 		};
 		9A3D483E1EF2EB1100252065 = {
@@ -311,6 +343,7 @@
 		9A3D48971EF38DF500252065 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9A2ADB241EFAC208000F18C7 /* UIImage+PDF */,
 				9A2ADB1F1EF83ABF000F18C7 /* Reachability */,
 				9A3D48981EF38E4600252065 /* Compress */,
 			);
@@ -671,10 +704,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A3D48521EF2EB1100252065 /* ViewController.m in Sources */,
+				9A2ADB2F1EFAC223000F18C7 /* NSData+MD5.m in Sources */,
 				9A3D48D01EF43E4800252065 /* ListMangaViewController.m in Sources */,
+				9A2ADB331EFAC223000F18C7 /* UIView+Image.m in Sources */,
 				22F8F72D1EF6A91E005E35BA /* MangaDetailFlowLayout.m in Sources */,
+				9A2ADB301EFAC223000F18C7 /* NSString+MD5.m in Sources */,
 				9A3D484F1EF2EB1100252065 /* AppDelegate.m in Sources */,
+				9A2ADB321EFAC223000F18C7 /* UIImage+PDF.m in Sources */,
 				9A3D48E41EF4FA0A00252065 /* ListMangaViewController+TableView.m in Sources */,
+				9A2ADB311EFAC223000F18C7 /* PDFView.m in Sources */,
 				22F8F7261EF64180005E35BA /* MangaDetailViewController.m in Sources */,
 				9A3D48CC1EF43DA700252065 /* ListMangaTableViewCell.m in Sources */,
 				9A3D48E71EF4FBC500252065 /* DownloadImage.m in Sources */,
@@ -688,7 +726,6 @@
 				9A3D48841EF37C1800252065 /* DownloadBook.m in Sources */,
 				22F8F72A1EF64D21005E35BA /* MangaCollectionViewCell.m in Sources */,
 				2296F8981EFA9D7C00B7B6C4 /* MangaViewerCollectionViewCell.m in Sources */,
-				9A3D48C71EF3FB0200252065 /* HomeViewController+TableView.m in Sources */,
 				2296F89B1EFAA41C00B7B6C4 /* MangeViewerFlowLayout.m in Sources */,
 				9A3D48D81EF4D34100252065 /* DownloadHelper.m in Sources */,
 			);
