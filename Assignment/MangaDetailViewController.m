@@ -2,7 +2,7 @@
 //  MangaDetailViewController.m
 //  Assignment
 //
-//  Created by Kahn on 6/18/17.
+//  Created by NguyenDinh.Long on 6/16/17.
 //  Copyright © 2017 NguyenDinh.Long. All rights reserved.
 //
 
@@ -26,11 +26,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
-  _mangaDetailCollectionView.delegate = self;
-  _mangaDetailCollectionView.dataSource = self;
+  self.mangaDetailCollectionView.delegate = self;
+  self.mangaDetailCollectionView.dataSource = self;
   self.automaticallyAdjustsScrollViewInsets = NO;
-  //    mangaFlowLayout = [[MangaDetailFlowLayout alloc] init];
-  //_mangaDetailCollectionView.collectionViewLayout = mangaFlowLayout;
   DownloadImage *downImg = [_arrManga objectAtIndex:0];
   [self setTitle:[downImg.nameBook stringByDeletingPathExtension]];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(progressUpdated:) name:kNotifiProgress object:nil];
@@ -38,12 +36,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   
-  //  UIView.transitionWithView(self.mangaDetailCollectionView, duration: 1.0, options: .TransitionCrossDissolve, animations: {self.myTableView.reloadData()}, completion: nil)
-  //  [UIView transitionWithView:self.mangaDetailCollectionView duration:1.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
-  //    [self.mangaDetailCollectionView reloadData];
-  //  } completion:^(BOOL finished) {
-  
-  //  }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -139,8 +131,8 @@
         
       } else if ([extension isEqualToString:ZIP_EXT]) {
         cell.progress.text = @"Unzipping...";
-         [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:[downloadImg.imgFilePath stringByDeletingLastPathComponent] isDeleteOldFile:YES];
-         NSString *fileName = [[downloadImg.imgFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:JPG_EXT];
+        [[FileManager shareInstance] unzipAndDeleteFile:downloadImg.imgFilePath toDestination:[downloadImg.imgFilePath stringByDeletingLastPathComponent] isDeleteOldFile:YES];
+        NSString *fileName = [[downloadImg.imgFilePath stringByDeletingPathExtension] stringByAppendingPathExtension:JPG_EXT];
         UIImage *image = [UIImage imageWithContentsOfFile:fileName];
         if (image != nil) {
           cell.imgManga.image = image;

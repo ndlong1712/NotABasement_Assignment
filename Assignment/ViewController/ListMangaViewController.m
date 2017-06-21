@@ -36,14 +36,18 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.automaticallyAdjustsScrollViewInsets = NO;
-  [self setUpReachabilityToCheckNetwork];
+  
   self.listActiveDownload = [[NSMutableDictionary alloc] init];
-  maxOperations = self.sliderNumberThread.value;
+  pages = [[NSMutableArray alloc]init];
+  
   [self.btnPauseResume setEnabled:NO];
   [self.btnDelete setEnabled:NO];
-  pages = [[NSMutableArray alloc]init];
-  self.sliderNumberThread.value = 3;
+  
   self.lbMaxNumber.text = @"3";
+  self.sliderNumberThread.value = 3;
+  maxOperations = self.sliderNumberThread.value;
+  
+  [self setUpReachabilityToCheckNetwork];
   [self configURLSession];
   
 }
@@ -56,6 +60,7 @@
   [reachability startNotifier];
 }
 
+//network obsever
 - (void)networkStateChanged:(NSNotification *)notice {
   NetworkStatus currentNetStatus = [reachability currentReachabilityStatus];
   if (currentNetStatus == NotReachable) {
@@ -77,7 +82,7 @@
   [self.btnAdd setEnabled:YES];
   [self.btnPauseResume setTitle:Pause];
   isPause = NO;
-  double delayInSeconds = 3.0;
+  double delayInSeconds = 2.0;
   dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
   dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -91,6 +96,7 @@
     [self pauseAll];
     isPause = YES;
   } else {
+    //check network
     if ([[Reachability reachabilityForInternetConnection]currentReachabilityStatus]==NotReachable) {
       [Utilities showAlertWithTitle:nil message:@"No network!" cancelTitle:@"Cancel" okTitle:@"Ok" inview:self];
     } else {
@@ -112,27 +118,16 @@
     isDownDataSource = YES;
     [self.btnPauseResume setEnabled:YES];
     [self.btnDelete setEnabled:YES];
-//    [self tempFunc];
+    //    [self tempFunc];
     [self downloadZipFileWithURL:SERVER_URL_DATA];
   }
 }
 
+//Pause all download task
 -(void)pauseAll {
-  
   [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
     if ([value isKindOfClass:[DownloadImage class]]) {
       DownloadImage *download = value;
-      //      if (download.isDownloading) {
-      //        [download.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-      //          if (resumeData != nil) {
-      //            download.resumeData = resumeData;
-      //          } else {
-      //
-      //          }
-      //        }];
-      //      } else {
-      //        [download.downloadTask cancel];
-      //      }
       [download.downloadTask cancel];
       download.isDownloading = false;
     }
@@ -140,6 +135,7 @@
   [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
+//Resume all download task
 -(void)resumeAll {
   [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
     if ([value isKindOfClass:[DownloadImage class]]) {
@@ -162,6 +158,7 @@
   [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
+//Cancel all downloadtask
 -(void)cancelAll {
   [self.listActiveDownload enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
     if ([value isKindOfClass:[DownloadImage class]]) {
@@ -195,8 +192,10 @@
   downloadBook.isDownloading = true;
   downloadBook.name = book.name;
   downloadBook.index = book.index;
-  //downloadBook.downloadImages = [book.pages copy];
+  
   [self.listActiveDownload setObject:downloadBook forKey:book.name];
+  
+  //create DownloadImage form list URLs of DownloadBook
   for (int i = 0; i < book.pages.count; i++) {
     NSString *urlString = book.pages[i];
     NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%d",urlString,i];
@@ -256,7 +255,7 @@
   } else {
     NSString *identifierTask = downloadTask.taskDescription;
     NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",downloadTask.originalRequest.URL.absoluteString,identifierTask];
-    //    NSLog(@"unique: %@",uniqueUrl);
+    
     DownloadImage *dImg = [self.listActiveDownload objectForKey:uniqueUrl];
     DownloadBook *dObj = [self.listActiveDownload objectForKey:dImg.nameBook];
     NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
@@ -276,9 +275,6 @@
         ListMangaTableViewCell *cell = (ListMangaTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         
         dObj.progress += 1.0 / (float)dObj.pages.count;
-        //        if (dObj.index == 6) {
-        //          NSLog(@"item downloaded: %f",dObj.progress);
-        //        }
         
         if (dObj.progress >= 0.98) {
           cell.lbStatus.text = STATUS_FINISHED;
@@ -344,6 +340,7 @@
   [self parseJsonToDataSource];
 }
 
+//function to test with custom data
 -(void)tempFunc{
   NSString *mangaFolder = [[FileManager shareInstance] getOrCreateMangaDirectory];
   NSString *pathJson = [NSString stringWithFormat:@"%@/JSON files updated/images2.json",mangaFolder];
@@ -391,29 +388,12 @@
   NSString *uniqueUrl = [NSString stringWithFormat:@"%@/%@",downloadTask.originalRequest.URL.absoluteString,identifierTask];
   DownloadImage *dImg = [_listActiveDownload objectForKey:uniqueUrl];
   float percent = (float)totalBytesWritten / (float)totalBytesExpectedToWrite * 100;
-//  dImg.progress = (float)bytesWritten / (float)totalBytesExpectedToWrite * 100;
-  NSLog(@"Long progress : %f", percent);
+  //  NSLog(@"Long progress : %f", percent);
   dImg.progress = percent;
   DownloadBook *dObj = [_listActiveDownload objectForKey:dImg.nameBook];
   if (dObj.isSelected) {
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotifiProgress object:dImg];
   }
-  
-  // 1
-//  if let downloadUrl = downloadTask.originalRequest?.URL?.absoluteString,
-//    download = activeDownloads[downloadUrl] {
-//      // 2
-//      download.progress = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
-//      // 3
-//      let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
-//      // 4
-//      if let trackIndex = trackIndexForDownloadTask(downloadTask), let trackCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: trackIndex, inSection: 0)) as? TrackCell {
-//        dispatch_async(dispatch_get_main_queue(), {
-//          trackCell.progressView.progress = download.progress
-//          trackCell.progressLabel.text =  String(format: "%.1f%% of %@",  download.progress * 100, totalSize)
-//        })
-//      }
-//    }
   
 }
 

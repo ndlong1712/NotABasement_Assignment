@@ -22,7 +22,6 @@
 		9A2ADB331EFAC223000F18C7 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A2ADB2E1EFAC223000F18C7 /* UIView+Image.m */; };
 		9A3D484C1EF2EB1100252065 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D484B1EF2EB1100252065 /* main.m */; };
 		9A3D484F1EF2EB1100252065 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D484E1EF2EB1100252065 /* AppDelegate.m */; };
-		9A3D48521EF2EB1100252065 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48511EF2EB1100252065 /* ViewController.m */; };
 		9A3D48551EF2EB1100252065 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3D48531EF2EB1100252065 /* Main.storyboard */; };
 		9A3D48571EF2EB1100252065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A3D48561EF2EB1100252065 /* Assets.xcassets */; };
 		9A3D485A1EF2EB1100252065 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A3D48581EF2EB1100252065 /* LaunchScreen.storyboard */; };
@@ -34,7 +33,6 @@
 		9A3D48CC1EF43DA700252065 /* ListMangaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48CB1EF43DA700252065 /* ListMangaTableViewCell.m */; };
 		9A3D48D01EF43E4800252065 /* ListMangaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48CF1EF43E4800252065 /* ListMangaViewController.m */; };
 		9A3D48D31EF4403000252065 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48D21EF4403000252065 /* Utilities.m */; };
-		9A3D48D81EF4D34100252065 /* DownloadHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48D71EF4D34100252065 /* DownloadHelper.m */; };
 		9A3D48DD1EF4DD4E00252065 /* ParseJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48DC1EF4DD4E00252065 /* ParseJson.m */; };
 		9A3D48E41EF4FA0A00252065 /* ListMangaViewController+TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48E31EF4FA0A00252065 /* ListMangaViewController+TableView.m */; };
 		9A3D48E71EF4FBC500252065 /* DownloadImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D48E61EF4FBC500252065 /* DownloadImage.m */; };
@@ -81,7 +79,6 @@
 		942C5AFBAAACA6386408411A /* libPods-Assignment.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Assignment.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A2ADB201EF83BD7000F18C7 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Libraries/Reachability/Reachability.h; sourceTree = "<group>"; };
 		9A2ADB211EF83BD7000F18C7 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Libraries/Reachability/Reachability.m; sourceTree = "<group>"; };
-		9A2ADB231EF93CBE000F18C7 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		9A2ADB251EFAC223000F18C7 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MD5.h"; path = "Libraries/UIImage+PDF/NSData+MD5.h"; sourceTree = "<group>"; };
 		9A2ADB261EFAC223000F18C7 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MD5.m"; path = "Libraries/UIImage+PDF/NSData+MD5.m"; sourceTree = "<group>"; };
 		9A2ADB271EFAC223000F18C7 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MD5.h"; path = "Libraries/UIImage+PDF/NSString+MD5.h"; sourceTree = "<group>"; };
@@ -96,8 +93,6 @@
 		9A3D484B1EF2EB1100252065 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9A3D484D1EF2EB1100252065 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9A3D484E1EF2EB1100252065 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9A3D48501EF2EB1100252065 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		9A3D48511EF2EB1100252065 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9A3D48541EF2EB1100252065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9A3D48561EF2EB1100252065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A3D48591EF2EB1100252065 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -121,8 +116,6 @@
 		9A3D48CF1EF43E4800252065 /* ListMangaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListMangaViewController.m; path = ViewController/ListMangaViewController.m; sourceTree = "<group>"; };
 		9A3D48D11EF4403000252065 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = Utilities/Utilities.h; sourceTree = "<group>"; };
 		9A3D48D21EF4403000252065 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = Utilities/Utilities.m; sourceTree = "<group>"; };
-		9A3D48D61EF4D34100252065 /* DownloadHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadHelper.h; sourceTree = "<group>"; };
-		9A3D48D71EF4D34100252065 /* DownloadHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadHelper.m; sourceTree = "<group>"; };
 		9A3D48DB1EF4DD4E00252065 /* ParseJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseJson.h; path = Parse/Json/ParseJson.h; sourceTree = "<group>"; };
 		9A3D48DC1EF4DD4E00252065 /* ParseJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseJson.m; path = Parse/Json/ParseJson.m; sourceTree = "<group>"; };
 		9A3D48E21EF4FA0A00252065 /* ListMangaViewController+TableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ListMangaViewController+TableView.h"; path = "ViewController/ListMangaViewController+TableView.h"; sourceTree = "<group>"; };
@@ -251,7 +244,6 @@
 		9A3D48491EF2EB1100252065 /* Assignment */ = {
 			isa = PBXGroup;
 			children = (
-				9A3D48DE1EF4DFCE00252065 /* Model */,
 				9A3D48D91EF4DCF400252065 /* Parse */,
 				9A3D48971EF38DF500252065 /* Libraries */,
 				9A3D48911EF3892600252065 /* Utilities */,
@@ -260,14 +252,11 @@
 				9A3D48811EF37BA300252065 /* DownloadHelper */,
 				9A3D484D1EF2EB1100252065 /* AppDelegate.h */,
 				9A3D484E1EF2EB1100252065 /* AppDelegate.m */,
-				9A3D48501EF2EB1100252065 /* ViewController.h */,
-				9A3D48511EF2EB1100252065 /* ViewController.m */,
 				9A3D48531EF2EB1100252065 /* Main.storyboard */,
 				9A3D48561EF2EB1100252065 /* Assets.xcassets */,
 				9A3D48581EF2EB1100252065 /* LaunchScreen.storyboard */,
 				9A3D485B1EF2EB1100252065 /* Info.plist */,
 				9A3D484A1EF2EB1100252065 /* Supporting Files */,
-				9A2ADB231EF93CBE000F18C7 /* Header.h */,
 			);
 			path = Assignment;
 			sourceTree = "<group>";
@@ -301,7 +290,6 @@
 		9A3D48811EF37BA300252065 /* DownloadHelper */ = {
 			isa = PBXGroup;
 			children = (
-				9A3D48D51EF4D30400252065 /* Operations */,
 				9A3D48821EF37C1800252065 /* DownloadBook.h */,
 				9A3D48831EF37C1800252065 /* DownloadBook.m */,
 				9A3D48E51EF4FBC500252065 /* DownloadImage.h */,
@@ -395,15 +383,6 @@
 			name = ListManga;
 			sourceTree = "<group>";
 		};
-		9A3D48D51EF4D30400252065 /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-				9A3D48D61EF4D34100252065 /* DownloadHelper.h */,
-				9A3D48D71EF4D34100252065 /* DownloadHelper.m */,
-			);
-			name = Operations;
-			sourceTree = "<group>";
-		};
 		9A3D48D91EF4DCF400252065 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,13 +398,6 @@
 				9A3D48DC1EF4DD4E00252065 /* ParseJson.m */,
 			);
 			name = JSON;
-			sourceTree = "<group>";
-		};
-		9A3D48DE1EF4DFCE00252065 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		D47EB9FC2C99DF77852CCD3A /* Frameworks */ = {
@@ -513,7 +485,6 @@
 				TargetAttributes = {
 					9A3D48461EF2EB1100252065 = {
 						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = X385U6EXA2;
 						ProvisioningStyle = Automatic;
 					};
 					9A3D485F1EF2EB1100252065 = {
@@ -703,7 +674,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A3D48521EF2EB1100252065 /* ViewController.m in Sources */,
 				9A2ADB2F1EFAC223000F18C7 /* NSData+MD5.m in Sources */,
 				9A3D48D01EF43E4800252065 /* ListMangaViewController.m in Sources */,
 				9A2ADB331EFAC223000F18C7 /* UIView+Image.m in Sources */,
@@ -727,7 +697,6 @@
 				22F8F72A1EF64D21005E35BA /* MangaCollectionViewCell.m in Sources */,
 				2296F8981EFA9D7C00B7B6C4 /* MangaViewerCollectionViewCell.m in Sources */,
 				2296F89B1EFAA41C00B7B6C4 /* MangeViewerFlowLayout.m in Sources */,
-				9A3D48D81EF4D34100252065 /* DownloadHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -878,7 +847,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_HEADERS_RUN_UNIFDEF = NO;
-				DEVELOPMENT_TEAM = X385U6EXA2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Assignment/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -893,7 +862,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COPY_HEADERS_RUN_UNIFDEF = NO;
-				DEVELOPMENT_TEAM = X385U6EXA2;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Assignment/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
