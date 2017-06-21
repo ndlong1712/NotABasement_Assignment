@@ -56,10 +56,18 @@
 
 #pragma UICollectionViewDelegate
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    CGFloat contentOffsetX = _mangaViewerCollectionView.contentOffset.x;
+//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+//    NSInteger idx = contentOffsetX / width;
+//    _pageIndex.text = [NSString stringWithFormat:@"%ld/%lu", idx + 1, (unsigned long)_arrManga.count];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     CGFloat contentOffsetX = _mangaViewerCollectionView.contentOffset.x;
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     NSInteger idx = contentOffsetX / width;
     _pageIndex.text = [NSString stringWithFormat:@"%ld/%lu", idx + 1, (unsigned long)_arrManga.count];
+
 }
 
 #pragma mark - UICollectionViewDataSource
