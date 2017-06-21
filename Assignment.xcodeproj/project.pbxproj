@@ -249,7 +249,7 @@
 				9A3D48911EF3892600252065 /* Utilities */,
 				9A3D48C11EF3F98200252065 /* CustomView */,
 				9A3D48851EF3818F00252065 /* ViewController */,
-				9A3D48811EF37BA300252065 /* DownloadHelper */,
+				9A3D48811EF37BA300252065 /* Download */,
 				9A3D484D1EF2EB1100252065 /* AppDelegate.h */,
 				9A3D484E1EF2EB1100252065 /* AppDelegate.m */,
 				9A3D48531EF2EB1100252065 /* Main.storyboard */,
@@ -287,7 +287,7 @@
 			path = AssignmentUITests;
 			sourceTree = "<group>";
 		};
-		9A3D48811EF37BA300252065 /* DownloadHelper */ = {
+		9A3D48811EF37BA300252065 /* Download */ = {
 			isa = PBXGroup;
 			children = (
 				9A3D48821EF37C1800252065 /* DownloadBook.h */,
@@ -295,7 +295,7 @@
 				9A3D48E51EF4FBC500252065 /* DownloadImage.h */,
 				9A3D48E61EF4FBC500252065 /* DownloadImage.m */,
 			);
-			name = DownloadHelper;
+			name = Download;
 			sourceTree = "<group>";
 		};
 		9A3D48851EF3818F00252065 /* ViewController */ = {
