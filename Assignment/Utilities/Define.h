@@ -30,5 +30,7 @@
 
 #define kNotifiProgress @"NotifiProgress"
 
+#define Manga_Viewer_Name @"MangeViewerViewController"
+
 
 #endif /* Define_h */

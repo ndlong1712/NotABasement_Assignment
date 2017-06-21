@@ -10,6 +10,8 @@
 #import "MangaCollectionViewCell.h"
 #import "Define.h"
 #import "MangaDetailFlowLayout.h"
+#import "MangeViewerViewController.h"
+#import "Utilities.h"
 
 @interface MangaDetailViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -33,6 +35,8 @@
     DownloadImage *downImg = [_arrManga objectAtIndex:0];
     [self setTitle:[downImg.nameBook stringByDeletingPathExtension]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(progressUpdated:) name:kNotifiProgress object:nil];
+    
+    [_mangaDetailCollectionView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -47,6 +51,12 @@
 
 
 #pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    MangeViewerViewController *mangeViewerVC = (MangeViewerViewController*) [Utilities getViewController:Manga_Viewer_Name];
+    mangeViewerVC.arrManga = _arrManga;
+    mangeViewerVC.currentIndex = indexPath.row;
+    [self.navigationController pushViewController:mangeViewerVC animated:YES];
+}
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
