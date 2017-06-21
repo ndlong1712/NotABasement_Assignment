@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *mangaViewerCollectionView;
 @property (strong, nonatomic) NSArray *arrManga;
 @property (assign, nonatomic) NSInteger currentIndex;
+@property (weak, nonatomic) IBOutlet UILabel *pageIndex;
 
 @end

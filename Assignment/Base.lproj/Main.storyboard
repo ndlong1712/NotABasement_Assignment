@@ -249,7 +249,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7uX-jU-sY0">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="607"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="LtK-zb-lr5" customClass="MangeViewerFlowLayout">
                                     <size key="itemSize" width="200" height="200"/>
@@ -282,17 +282,38 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hmf-65-8MI">
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oir-FP-7ec">
+                                        <rect key="frame" x="166" y="9.5" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Oir-FP-7ec" firstAttribute="centerX" secondItem="Hmf-65-8MI" secondAttribute="centerX" id="fyh-vw-wOm"/>
+                                    <constraint firstItem="Oir-FP-7ec" firstAttribute="centerY" secondItem="Hmf-65-8MI" secondAttribute="centerY" id="wtV-hS-ccF"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Hmf-65-8MI" firstAttribute="top" secondItem="7uX-jU-sY0" secondAttribute="bottom" id="3DY-fp-8ax"/>
                             <constraint firstAttribute="trailing" secondItem="7uX-jU-sY0" secondAttribute="trailing" id="4Cr-Ha-A0T"/>
+                            <constraint firstItem="Hmf-65-8MI" firstAttribute="leading" secondItem="lXd-wW-cIM" secondAttribute="leading" id="7dJ-VR-GpB"/>
+                            <constraint firstItem="Oa1-dY-m2S" firstAttribute="top" secondItem="Hmf-65-8MI" secondAttribute="bottom" id="9Lx-AA-sCe"/>
                             <constraint firstItem="7uX-jU-sY0" firstAttribute="top" secondItem="WVK-ie-aOy" secondAttribute="bottom" id="9VO-8q-waa"/>
                             <constraint firstItem="7uX-jU-sY0" firstAttribute="leading" secondItem="lXd-wW-cIM" secondAttribute="leading" id="KRP-Qu-JC5"/>
-                            <constraint firstItem="Oa1-dY-m2S" firstAttribute="top" secondItem="7uX-jU-sY0" secondAttribute="bottom" id="eLY-Ks-F8B"/>
+                            <constraint firstItem="Oa1-dY-m2S" firstAttribute="top" secondItem="7uX-jU-sY0" secondAttribute="bottom" constant="40" id="eLY-Ks-F8B"/>
+                            <constraint firstAttribute="trailing" secondItem="Hmf-65-8MI" secondAttribute="trailing" id="fqP-gi-Uuz"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mangaViewerCollectionView" destination="7uX-jU-sY0" id="ZPr-cq-tl7"/>
+                        <outlet property="pageIndex" destination="Oir-FP-7ec" id="kU3-Wz-GT5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4S1-Ah-X8U" userLabel="First Responder" sceneMemberID="firstResponder"/>
