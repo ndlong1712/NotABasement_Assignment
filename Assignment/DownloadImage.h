@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Download.h"
+#import "DownloadBook.h"
 
-@interface DownloadImage : NSObject
+@interface DownloadImage : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString *url;
 @property (nonatomic, strong) NSString *nameBook;
-@property (nonatomic, assign) Boolean isDownloading;
+@property (nonatomic, assign) BOOL isDownloading;
 @property (nonatomic, assign) float progress;
+@property (nonatomic, assign) int index;
 @property (nonatomic, strong) NSString *imgFilePath;
 
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;

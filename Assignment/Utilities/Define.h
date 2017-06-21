@@ -29,6 +29,8 @@
 #define STATUS_FINISHED @"Finished"
 
 #define kNotifiProgress @"NotifiProgress"
+#define STATE_DOWNLOAD @"STATE"
+#define STATE_IS_TERMINATE @"TERMINATE"
 
 #define Manga_Viewer_Name @"MangeViewerViewController"
 

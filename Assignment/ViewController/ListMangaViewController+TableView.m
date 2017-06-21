@@ -8,9 +8,8 @@
 
 #import "ListMangaViewController+TableView.h"
 #import "ListMangaTableViewCell.h"
-#import "StoryBook.h"
 #import "Define.h"
-#import "Download.h"
+#import "DownloadBook.h"
 #import "MangaDetailViewController.h"
 #import "Utilities.h"
 
@@ -27,8 +26,7 @@ static NSString *mangaDetailName = @"MangaDetailViewController";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
   ListMangaTableViewCell *cell = (ListMangaTableViewCell *)[tableView dequeueReusableCellWithIdentifier:ListMangaCelllName];
-  StoryBook *book = self.dataSource[indexPath.row];
-  cell.lbStatus.text = STATUS_QUEUING;
+  DownloadBook *book = self.dataSource[indexPath.row];
   cell.lbNameManga.text = book.name;
   if (([cell.lbStatus.text  isEqual: STATUS_FINISHED] || [cell.lbStatus.text  isEqual: STATUS_DOWNLOADING])) {
     
@@ -44,14 +42,12 @@ static NSString *mangaDetailName = @"MangaDetailViewController";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    StoryBook *book = self.dataSource[indexPath.row];
-    Download *downloadBook = [self.listActiveDownload objectForKey:book.name];
+    DownloadBook *book = self.dataSource[indexPath.row];
+    DownloadBook *downloadBook = [self.listActiveDownload objectForKey:book.name];
     downloadBook.isSelected = YES;
     MangaDetailViewController *mangeDetailVC = (MangaDetailViewController*) [Utilities getViewController:mangaDetailName];
-    mangeDetailVC.arrManga = downloadBook.downloadImages;
+    mangeDetailVC.arrManga = downloadBook.pages;
     [self.navigationController pushViewController:mangeDetailVC animated:YES];
-    
-    
 }
 
 
