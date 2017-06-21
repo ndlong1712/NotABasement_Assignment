@@ -43,6 +43,7 @@
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     [_mangaViewerCollectionView setContentSize:CGSizeMake(_arrManga.count*width, height)];
     [_mangaViewerCollectionView setContentOffset:CGPointMake(_currentIndex*width, 0)];
+    _pageIndex.text = [NSString stringWithFormat:@"%ld/%lu", _currentIndex + 1, (unsigned long)_arrManga.count];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -51,6 +52,14 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma UICollectionViewDelegate
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    CGFloat contentOffsetX = _mangaViewerCollectionView.contentOffset.x;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    NSInteger idx = contentOffsetX / width;
+    _pageIndex.text = [NSString stringWithFormat:@"%ld/%lu", idx + 1, (unsigned long)_arrManga.count];
 }
 
 #pragma mark - UICollectionViewDataSource
